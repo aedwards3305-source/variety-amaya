@@ -90,6 +90,7 @@ export default function Home() {
       const response = await fetch("https://formspree.io/f/mlglnplo", {
         method: "POST",
         headers: {
+          "Accept": "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
