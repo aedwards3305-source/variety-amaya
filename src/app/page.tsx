@@ -39,6 +39,37 @@ const faqs = [
   },
 ];
 
+const testimonials = [
+  {
+    name: "Michael Thompson",
+    location: "Fairfax, VA",
+    rating: 5,
+    text: "Rene and his team did an amazing job on our fence installation. They were professional, on time, and the quality of work exceeded our expectations. Highly recommend!",
+    service: "Fence Installation",
+  },
+  {
+    name: "Sarah Mitchell",
+    location: "Burke, VA",
+    rating: 5,
+    text: "We hired Variety Amaya for a complete bathroom remodel. The attention to detail was impressive and they kept us informed throughout the entire process. Our bathroom looks brand new!",
+    service: "Bathroom Remodel",
+  },
+  {
+    name: "David & Linda Garcia",
+    location: "Springfield, VA",
+    rating: 5,
+    text: "Best landscaping service in the area! They transformed our backyard into a beautiful outdoor space. Fair pricing and excellent communication. Will definitely use them again.",
+    service: "Landscaping",
+  },
+  {
+    name: "Robert Williams",
+    location: "Centreville, VA",
+    rating: 5,
+    text: "Had them powerwash our driveway and deck - looks like new! Fast, efficient, and very affordable. As a veteran, I appreciated the military discount too.",
+    service: "Powerwashing",
+  },
+];
+
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -228,6 +259,44 @@ export default function Home() {
             >
               Request a Quote
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Don&apos;t just take our word for it - hear from our satisfied customers in Fairfax County.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-gray-50 rounded-2xl p-8 border border-gray-100 hover:shadow-lg transition-shadow"
+              >
+                <div className="flex items-center gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <svg key={i} className="w-5 h-5 text-[#D4AF37]" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-700 mb-6 italic">&quot;{testimonial.text}&quot;</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-gray-900">{testimonial.name}</p>
+                    <p className="text-sm text-gray-500">{testimonial.location}</p>
+                  </div>
+                  <span className="text-xs bg-[#D4AF37]/10 text-[#B8960C] px-3 py-1 rounded-full font-medium">
+                    {testimonial.service}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
