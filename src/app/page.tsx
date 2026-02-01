@@ -87,7 +87,7 @@ export default function Home() {
 
     try {
       // Formspree form submission
-      const response = await fetch("https://formspree.io/varietyamaya@yahoo.com", {
+      const response = await fetch("https://formspree.io/varietyamayallc@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
