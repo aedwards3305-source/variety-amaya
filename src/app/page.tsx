@@ -4,20 +4,20 @@ import Image from "next/image";
 import { useState } from "react";
 
 const services = [
-  { name: "Remodeling", icon: "🏠" },
-  { name: "Bathrooms", icon: "🚿" },
-  { name: "Kitchens", icon: "🍳" },
-  { name: "Electrical Work", icon: "⚡" },
-  { name: "Plumbing", icon: "🔧" },
-  { name: "Painting", icon: "🎨" },
-  { name: "Gutter Cleaning", icon: "🏡" },
-  { name: "Decks", icon: "🪵" },
-  { name: "Fences", icon: "🚧" },
-  { name: "Powerwashing", icon: "💦" },
-  { name: "Landscaping", icon: "🌳" },
-  { name: "Waterproofing", icon: "🌧️" },
-  { name: "Sheds & Gates", icon: "🚪" },
-  { name: "Tree Trimming", icon: "✂️" },
+  { name: "Remodeling", image: "/icons/remodeling.png" },
+  { name: "Bathrooms", image: "/icons/bathrooms.png" },
+  { name: "Kitchens", image: "/icons/kitchens.png" },
+  { name: "Electrical Work", image: "/icons/electrical.png" },
+  { name: "Plumbing", image: "/icons/plumbing.png" },
+  { name: "Painting", image: "/icons/painting.png" },
+  { name: "Gutter Cleaning", image: "/icons/gutter-cleaning.png" },
+  { name: "Decks", image: "/icons/decks.png" },
+  { name: "Fences", image: "/icons/fences.png" },
+  { name: "Powerwashing", image: "/icons/powerwashing.png" },
+  { name: "Landscaping", image: "/icons/landscaping.png" },
+  { name: "Waterproofing", image: "/icons/waterproofing.png" },
+  { name: "Sheds & Gates", image: "/icons/sheds.png" },
+  { name: "Tree Trimming", image: "/icons/tree-trimming.png" },
 ];
 
 const faqs = [
@@ -255,9 +255,16 @@ export default function Home() {
             {services.map((service) => (
               <div
                 key={service.name}
-                className="service-card bg-white rounded-xl p-6 text-center shadow-md border border-gray-100 hover:border-[#D4AF37]"
+                className="service-card bg-white rounded-xl p-4 text-center shadow-md border border-gray-100 hover:border-[#D4AF37] overflow-hidden"
               >
-                <div className="text-4xl mb-4">{service.icon}</div>
+                <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
+                  <Image
+                    src={service.image}
+                    alt={service.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
                 <h3 className="font-semibold text-gray-900">{service.name}</h3>
               </div>
             ))}
