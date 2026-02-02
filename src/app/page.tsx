@@ -1,28 +1,29 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 
 const services = [
-  { name: "Bathrooms", image: "/icons/bathrooms.png" },
-  { name: "Decks", image: "/icons/decks.png" },
-  { name: "Drywalling", image: "/icons/drywalling.png" },
-  { name: "Electrical Work", image: "/icons/electrical.png" },
-  { name: "Fences", image: "/icons/fences.png" },
-  { name: "Flooring", image: "/icons/flooring.png" },
-  { name: "Gutter Cleaning", image: "/icons/gutter-cleaning.png" },
-  { name: "Junk Removal", image: "/icons/junk-removal.png" },
-  { name: "Kitchens", image: "/icons/kitchens.png" },
-  { name: "Landscaping", image: "/icons/landscaping.png" },
-  { name: "Painting", image: "/icons/painting.png" },
-  { name: "Plumbing", image: "/icons/plumbing.png" },
-  { name: "Powerwashing", image: "/icons/powerwashing.png" },
-  { name: "Remodeling", image: "/icons/remodeling.png" },
-  { name: "Roofing", image: "/icons/roofing.png" },
-  { name: "Sheds & Gates", image: "/icons/sheds.png" },
-  { name: "Snow Removal", image: "/icons/snow-removal.png" },
-  { name: "Tree Trimming", image: "/icons/tree-trimming.png" },
-  { name: "Waterproofing", image: "/icons/waterproofing.png" },
+  { name: "Bathrooms", slug: "bathrooms", image: "/icons/bathrooms.png" },
+  { name: "Decks", slug: "decks", image: "/icons/decks.png" },
+  { name: "Drywalling", slug: "drywalling", image: "/icons/drywalling.png" },
+  { name: "Electrical Work", slug: "electrical-work", image: "/icons/electrical.png" },
+  { name: "Fences", slug: "fences", image: "/icons/fences.png" },
+  { name: "Flooring", slug: "flooring", image: "/icons/flooring.png" },
+  { name: "Gutter Cleaning", slug: "gutter-cleaning", image: "/icons/gutter-cleaning.png" },
+  { name: "Junk Removal", slug: "junk-removal", image: "/icons/junk-removal.png" },
+  { name: "Kitchens", slug: "kitchens", image: "/icons/kitchens.png" },
+  { name: "Landscaping", slug: "landscaping", image: "/icons/landscaping.png" },
+  { name: "Painting", slug: "painting", image: "/icons/painting.png" },
+  { name: "Plumbing", slug: "plumbing", image: "/icons/plumbing.png" },
+  { name: "Powerwashing", slug: "powerwashing", image: "/icons/powerwashing.png" },
+  { name: "Remodeling", slug: "remodeling", image: "/icons/remodeling.png" },
+  { name: "Roofing", slug: "roofing", image: "/icons/roofing.png" },
+  { name: "Sheds & Gates", slug: "sheds-gates", image: "/icons/sheds.png" },
+  { name: "Snow Removal", slug: "snow-removal", image: "/icons/snow-removal.png" },
+  { name: "Tree Trimming", slug: "tree-trimming", image: "/icons/tree-trimming.png" },
+  { name: "Waterproofing", slug: "waterproofing", image: "/icons/waterproofing.png" },
 ];
 
 const faqs = [
@@ -248,9 +249,10 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {services.map((service) => (
-              <div
+              <Link
                 key={service.name}
-                className="service-card bg-white rounded-xl p-4 text-center shadow-md border border-gray-100 hover:border-[#D4AF37] overflow-hidden"
+                href={`/services/${service.slug}`}
+                className="service-card bg-white rounded-xl p-4 text-center shadow-md border border-gray-100 hover:border-[#D4AF37] overflow-hidden cursor-pointer"
               >
                 <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden">
                   <Image
@@ -261,7 +263,7 @@ export default function Home() {
                   />
                 </div>
                 <h3 className="font-semibold text-gray-900">{service.name}</h3>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="text-center mt-12">
