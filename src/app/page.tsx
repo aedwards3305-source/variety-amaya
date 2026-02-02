@@ -39,14 +39,6 @@ const faqs = [
   },
 ];
 
-const portfolioImages = [
-  { src: "/1000007843.jpg", title: "Paver Walkway", category: "Landscaping" },
-  { src: "/1000007845.jpg", title: "Hardwood Flooring", category: "Flooring" },
-  { src: "/1000007849.jpg", title: "Exterior Repairs", category: "Repairs" },
-  { src: "/1000007853.jpg", title: "Gutter Guards", category: "Gutter Installation" },
-  { src: "/1000007855.jpg", title: "Deck Construction", category: "Decks" },
-];
-
 const testimonials = [
   {
     name: "Michael Thompson",
@@ -142,7 +134,6 @@ export default function Home() {
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
               <a href="#services" className="text-white hover:text-gold transition-colors">Services</a>
-              <a href="#work" className="text-white hover:text-gold transition-colors">Our Work</a>
               <a href="#about" className="text-white hover:text-gold transition-colors">About</a>
               <a href="#faq" className="text-white hover:text-gold transition-colors">FAQ</a>
               <a href="tel:7036770440" className="text-white hover:text-gold transition-colors">
@@ -176,7 +167,6 @@ export default function Home() {
             <div className="md:hidden py-4 border-t border-gray-800">
               <nav className="flex flex-col gap-4">
                 <a href="#services" className="text-white hover:text-gold transition-colors" onClick={() => setMobileMenuOpen(false)}>Services</a>
-                <a href="#work" className="text-white hover:text-gold transition-colors" onClick={() => setMobileMenuOpen(false)}>Our Work</a>
                 <a href="#about" className="text-white hover:text-gold transition-colors" onClick={() => setMobileMenuOpen(false)}>About</a>
                 <a href="#faq" className="text-white hover:text-gold transition-colors" onClick={() => setMobileMenuOpen(false)}>FAQ</a>
                 <a href="tel:7036770440" className="text-gold font-semibold">(703) 677-0440</a>
@@ -276,47 +266,6 @@ export default function Home() {
               className="inline-block bg-gold hover:bg-[#B8960C] text-black font-bold px-8 py-3 rounded-full transition-colors"
             >
               Request a Quote
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Our Work Section */}
-      <section id="work" className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Our Work</h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              Take a look at some of our recent projects. Quality craftsmanship you can trust.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {portfolioImages.map((image, index) => (
-              <div
-                key={index}
-                className="group relative overflow-hidden rounded-xl aspect-[4/3] bg-gray-900"
-              >
-                <Image
-                  src={image.src}
-                  alt={image.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="text-[#D4AF37] text-sm font-medium">{image.category}</span>
-                    <h3 className="text-white text-xl font-semibold mt-1">{image.title}</h3>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-12">
-            <a
-              href="#requestForm"
-              className="inline-block bg-gold hover:bg-[#B8960C] text-black font-bold px-8 py-3 rounded-full transition-colors"
-            >
-              Start Your Project
             </a>
           </div>
         </div>
