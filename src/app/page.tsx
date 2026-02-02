@@ -10,6 +10,8 @@ const services = [
   { name: "Electrical Work", image: "/icons/electrical.png" },
   { name: "Plumbing", image: "/icons/plumbing.png" },
   { name: "Painting", image: "/icons/painting.png" },
+  { name: "Flooring", image: "/icons/flooring.png" },
+  { name: "Drywalling", image: "/icons/drywalling.png" },
   { name: "Gutter Cleaning", image: "/icons/gutter-cleaning.png" },
   { name: "Decks", image: "/icons/decks.png" },
   { name: "Fences", image: "/icons/fences.png" },
