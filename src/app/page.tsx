@@ -206,7 +206,7 @@ export default function Home() {
             </a>
             <a
               href="tel:7036770440"
-              className="border-2 border-gold text-gold hover:bg-gold hover:text-black font-bold px-8 py-4 rounded-full text-lg transition-all"
+              className="border-2 border-gold text-gold hover:bg-[#B8960C] hover:border-[#B8960C] hover:text-white font-bold px-8 py-4 rounded-full text-lg transition-all"
             >
               Call (703) 677-0440
             </a>
