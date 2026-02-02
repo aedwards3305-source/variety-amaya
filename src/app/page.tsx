@@ -20,6 +20,9 @@ const services = [
   { name: "Waterproofing", image: "/icons/waterproofing.png" },
   { name: "Sheds & Gates", image: "/icons/sheds.png" },
   { name: "Tree Trimming", image: "/icons/tree-trimming.png" },
+  { name: "Junk Removal", image: "/icons/junk-removal.png" },
+  { name: "Roofing", image: "/icons/roofing.png" },
+  { name: "Snow Removal", image: "/icons/snow-removal.png" },
 ];
 
 const faqs = [
