@@ -4,25 +4,25 @@ import Image from "next/image";
 import { useState } from "react";
 
 const services = [
-  { name: "Remodeling", image: "/icons/remodeling.png" },
   { name: "Bathrooms", image: "/icons/bathrooms.png" },
-  { name: "Kitchens", image: "/icons/kitchens.png" },
-  { name: "Electrical Work", image: "/icons/electrical.png" },
-  { name: "Plumbing", image: "/icons/plumbing.png" },
-  { name: "Painting", image: "/icons/painting.png" },
-  { name: "Flooring", image: "/icons/flooring.png" },
-  { name: "Drywalling", image: "/icons/drywalling.png" },
-  { name: "Gutter Cleaning", image: "/icons/gutter-cleaning.png" },
   { name: "Decks", image: "/icons/decks.png" },
+  { name: "Drywalling", image: "/icons/drywalling.png" },
+  { name: "Electrical Work", image: "/icons/electrical.png" },
   { name: "Fences", image: "/icons/fences.png" },
-  { name: "Powerwashing", image: "/icons/powerwashing.png" },
-  { name: "Landscaping", image: "/icons/landscaping.png" },
-  { name: "Waterproofing", image: "/icons/waterproofing.png" },
-  { name: "Sheds & Gates", image: "/icons/sheds.png" },
-  { name: "Tree Trimming", image: "/icons/tree-trimming.png" },
+  { name: "Flooring", image: "/icons/flooring.png" },
+  { name: "Gutter Cleaning", image: "/icons/gutter-cleaning.png" },
   { name: "Junk Removal", image: "/icons/junk-removal.png" },
+  { name: "Kitchens", image: "/icons/kitchens.png" },
+  { name: "Landscaping", image: "/icons/landscaping.png" },
+  { name: "Painting", image: "/icons/painting.png" },
+  { name: "Plumbing", image: "/icons/plumbing.png" },
+  { name: "Powerwashing", image: "/icons/powerwashing.png" },
+  { name: "Remodeling", image: "/icons/remodeling.png" },
   { name: "Roofing", image: "/icons/roofing.png" },
+  { name: "Sheds & Gates", image: "/icons/sheds.png" },
   { name: "Snow Removal", image: "/icons/snow-removal.png" },
+  { name: "Tree Trimming", image: "/icons/tree-trimming.png" },
+  { name: "Waterproofing", image: "/icons/waterproofing.png" },
 ];
 
 const faqs = [
