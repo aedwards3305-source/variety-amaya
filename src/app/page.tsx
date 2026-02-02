@@ -138,7 +138,7 @@ export default function Home() {
               <a href="#services" className="text-white hover:text-gold transition-colors">Services</a>
               <a href="#about" className="text-white hover:text-gold transition-colors">About</a>
               <a href="#faq" className="text-white hover:text-gold transition-colors">FAQ</a>
-              <a href="tel:7036770440" className="text-white hover:text-gold transition-colors">
+              <a href="tel:7036770440" className="text-gold hover:text-white transition-colors font-semibold">
                 (703) 677-0440
               </a>
               <a
