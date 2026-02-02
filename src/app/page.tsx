@@ -25,7 +25,7 @@ const services = [
 const faqs = [
   {
     question: "What areas do you serve?",
-    answer: "We proudly serve Fairfax County, VA and surrounding areas. Contact us to confirm if we service your specific location.",
+    answer: "We proudly serve the entire DMV area - Washington D.C., Maryland, and Virginia. Contact us to confirm if we service your specific location.",
   },
   {
     question: "Are you licensed and insured?",
@@ -191,7 +191,7 @@ export default function Home() {
         <div className="hero-overlay absolute inset-0"></div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Your Trusted <span className="text-gold">General Laborer</span> in Fairfax County, VA
+            Your Trusted <span className="text-gold">General Contractor</span> Serving the DMV Area
           </h1>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Depend on us for expert general labor services. Our skilled team delivers reliable,
@@ -279,7 +279,7 @@ export default function Home() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">What Our Customers Say</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Don&apos;t just take our word for it - hear from our satisfied customers in Fairfax County.
+              Don&apos;t just take our word for it - hear from our satisfied customers across the DMV.
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
@@ -513,7 +513,7 @@ export default function Home() {
                 </div>
               </div>
               <p className="text-gray-400">
-                Your trusted general laborer in Fairfax County, VA. Licensed, insured, and committed to quality.
+                Your trusted general contractor serving the DMV area. Licensed, insured, and committed to quality.
               </p>
             </div>
 
@@ -561,7 +561,7 @@ export default function Home() {
 
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
             <p>© {new Date().getFullYear()} Variety Amaya LLC. All rights reserved.</p>
-            <p className="mt-2 text-sm">Licensed & Insured | Serving Fairfax County, VA</p>
+            <p className="mt-2 text-sm">Licensed & Insured | Serving the DMV Area</p>
           </div>
         </div>
       </footer>
