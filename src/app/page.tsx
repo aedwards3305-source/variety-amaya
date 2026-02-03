@@ -6,7 +6,6 @@ import { useState } from "react";
 
 const services = [
   { name: "Bathrooms", slug: "bathrooms", image: "/icons/bathrooms.png" },
-  { name: "Concrete", slug: "concrete", image: "/icons/concrete.png" },
   { name: "Decks", slug: "decks", image: "/icons/decks.png" },
   { name: "Drywalling", slug: "drywalling", image: "/icons/drywalling.png" },
   { name: "Electrical Work", slug: "electrical-work", image: "/icons/electrical.png" },
@@ -16,14 +15,12 @@ const services = [
   { name: "Junk Removal", slug: "junk-removal", image: "/icons/junk-removal.png" },
   { name: "Kitchens", slug: "kitchens", image: "/icons/kitchens.png" },
   { name: "Landscaping", slug: "landscaping", image: "/icons/landscaping.png" },
-  { name: "Masonry", slug: "masonry", image: "/icons/masonry.png" },
   { name: "Painting", slug: "painting", image: "/icons/painting.png" },
   { name: "Plumbing", slug: "plumbing", image: "/icons/plumbing.png" },
   { name: "Powerwashing", slug: "powerwashing", image: "/icons/powerwashing.png" },
   { name: "Remodeling", slug: "remodeling", image: "/icons/remodeling.png" },
   { name: "Roofing", slug: "roofing", image: "/icons/roofing.png" },
   { name: "Sheds & Gates", slug: "sheds-gates", image: "/icons/sheds.png" },
-  { name: "Siding", slug: "siding", image: "/icons/siding.png" },
   { name: "Snow Removal", slug: "snow-removal", image: "/icons/snow-removal.png" },
   { name: "Stairs", slug: "stairs", image: "/icons/stairs.png" },
   { name: "Tree Trimming", slug: "tree-trimming", image: "/icons/tree-trimming.png" },
@@ -98,7 +95,7 @@ export default function Home() {
 
     try {
       // Formspree form submission
-      const response = await fetch("https://formspree.io/f/mlglnplo", {
+      const response = await fetch("https://formspree.io/f/mykpqgbo", {
         method: "POST",
         headers: {
           "Accept": "application/json",
