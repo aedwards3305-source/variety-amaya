@@ -83,6 +83,7 @@ export default function Home() {
     name: "",
     email: "",
     phone: "",
+    address: "",
     service: "",
     message: "",
   });
@@ -104,6 +105,7 @@ export default function Home() {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
+          address: formData.address,
           service: formData.service,
           message: formData.message,
           _subject: `New Estimate Request from ${formData.name}`,
@@ -112,7 +114,7 @@ export default function Home() {
 
       if (response.ok) {
         setFormStatus("success");
-        setFormData({ name: "", email: "", phone: "", service: "", message: "" });
+        setFormData({ name: "", email: "", phone: "", address: "", service: "", message: "" });
       } else {
         setFormStatus("error");
       }
@@ -473,6 +475,19 @@ export default function Home() {
                   <option value="Other">Other</option>
                 </select>
               </div>
+            </div>
+            <div className="mt-6">
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+                Address (Optional)
+              </label>
+              <input
+                type="text"
+                id="address"
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none transition-all"
+                placeholder="123 Main St, Fairfax, VA 22032"
+              />
             </div>
             <div className="mt-6">
               <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
