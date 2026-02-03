@@ -16,7 +16,7 @@ const serviceData: Record<string, {
     image: "/icons/bathrooms.png",
     description: "Transform your bathroom into a beautiful, functional space. We handle everything from simple updates to complete bathroom renovations including tile work, fixtures, vanities, and more.",
     workPhotos: [],
-    workVideos: [],
+    workVideos: ["/work/bathrooms-video-1.mp4"],
   },
   "decks": {
     name: "Decks",
@@ -43,7 +43,7 @@ const serviceData: Record<string, {
     name: "Fences",
     image: "/icons/fences.png",
     description: "Enhance your property with a quality fence installation. We offer wood, vinyl, chain link, and other fencing options to meet your needs and budget.",
-    workPhotos: [],
+    workPhotos: ["/work/fences-1.png"],
     workVideos: [],
   },
   "flooring": {
@@ -79,21 +79,21 @@ const serviceData: Record<string, {
     image: "/icons/landscaping.png",
     description: "Transform your outdoor space with professional landscaping. We offer design, planting, hardscaping, and ongoing maintenance services.",
     workPhotos: ["/work/landscaping-1.jpg"],
-    workVideos: [],
+    workVideos: ["/work/landscaping-video-1.mp4"],
   },
   "painting": {
     name: "Painting",
     image: "/icons/painting.png",
     description: "Refresh your space with professional interior and exterior painting services. We deliver clean, precise work with quality paints that last.",
     workPhotos: [],
-    workVideos: [],
+    workVideos: ["/work/painting-video-1.mp4"],
   },
   "plumbing": {
     name: "Plumbing",
     image: "/icons/plumbing.png",
     description: "Reliable plumbing services for repairs, installations, and maintenance. We handle leaks, clogs, fixture installations, and more.",
     workPhotos: [],
-    workVideos: [],
+    workVideos: ["/work/plumbing-video-1.mp4"],
   },
   "powerwashing": {
     name: "Powerwashing",
@@ -121,7 +121,7 @@ const serviceData: Record<string, {
     image: "/icons/sheds.png",
     description: "Custom shed construction and gate installation services. We build functional, attractive structures that enhance your property.",
     workPhotos: [],
-    workVideos: [],
+    workVideos: ["/work/sheds-video-1.mp4"],
   },
   "snow-removal": {
     name: "Snow Removal",
@@ -142,7 +142,7 @@ const serviceData: Record<string, {
     image: "/icons/waterproofing.png",
     description: "Protect your home from water damage with basement and foundation waterproofing services. We keep your home dry and safe.",
     workPhotos: [],
-    workVideos: [],
+    workVideos: ["/work/waterproofing-video-1.mp4"],
   },
 };
 
