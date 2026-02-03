@@ -200,7 +200,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center opacity-30"></div>
         <div className="hero-overlay absolute inset-0"></div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="relative w-[600px] h-[600px] md:w-[750px] md:h-[750px] mx-auto mb-8 logo-glow">
+          <div className="relative w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] mx-auto mb-8 logo-glow">
             <Image
               src="/va-logo.png"
               alt="Variety Amaya LLC"
