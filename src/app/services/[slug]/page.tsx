@@ -43,7 +43,7 @@ const serviceData: Record<string, {
     name: "Fences",
     image: "/icons/fences.png",
     description: "Enhance your property with a quality fence installation. We offer wood, vinyl, chain link, and other fencing options to meet your needs and budget.",
-    workPhotos: ["/work/fences-1.png"],
+    workPhotos: ["/work/fences-1.png", "/work/fences-2.png", "/work/fences-3.png"],
     workVideos: [],
   },
   "flooring": {
@@ -93,7 +93,7 @@ const serviceData: Record<string, {
     image: "/icons/plumbing.png",
     description: "Reliable plumbing services for repairs, installations, and maintenance. We handle leaks, clogs, fixture installations, and more.",
     workPhotos: [],
-    workVideos: ["/work/plumbing-video-1.mp4"],
+    workVideos: ["/work/plumbing-video-1.mp4", "/work/plumbing-video-2.mp4"],
   },
   "powerwashing": {
     name: "Powerwashing",
@@ -121,7 +121,7 @@ const serviceData: Record<string, {
     image: "/icons/sheds.png",
     description: "Custom shed construction and gate installation services. We build functional, attractive structures that enhance your property.",
     workPhotos: [],
-    workVideos: ["/work/sheds-video-1.mp4"],
+    workVideos: ["/work/sheds-video-1.mp4", "/work/sheds-video-2.mp4"],
   },
   "snow-removal": {
     name: "Snow Removal",
@@ -242,6 +242,7 @@ export default function ServicePage() {
                     <video
                       src={video}
                       controls
+                      muted
                       className="w-full h-full object-cover"
                       playsInline
                     >
