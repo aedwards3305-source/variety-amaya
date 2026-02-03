@@ -288,7 +288,7 @@ export default function ServicePage() {
 
             {/* Photos */}
             {service.workPhotos.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className={`grid gap-6 ${service.workPhotos.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
                 {service.workPhotos.map((photo, index) => (
                   <div
                     key={index}
