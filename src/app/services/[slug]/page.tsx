@@ -19,6 +19,13 @@ const serviceData: Record<string, {
     workPhotos: [],
     workVideos: ["/work/bathrooms-video-1.mp4"],
   },
+  "concrete": {
+    name: "Concrete",
+    image: "/icons/concrete.png",
+    description: "Professional concrete services including driveways, patios, walkways, and foundations. We deliver durable, quality concrete work that stands the test of time.",
+    workPhotos: [],
+    workVideos: [],
+  },
   "decks": {
     name: "Decks",
     image: "/icons/decks.png",
@@ -82,6 +89,13 @@ const serviceData: Record<string, {
     workPhotos: ["/work/landscaping-1.jpg"],
     workVideos: ["/work/landscaping-video-1.mp4"],
   },
+  "masonry": {
+    name: "Masonry",
+    image: "/icons/masonry.png",
+    description: "Expert masonry services including brick, stone, and block work. We build and repair walls, chimneys, patios, and other masonry structures with precision craftsmanship.",
+    workPhotos: [],
+    workVideos: [],
+  },
   "painting": {
     name: "Painting",
     image: "/icons/painting.png",
@@ -123,6 +137,13 @@ const serviceData: Record<string, {
     description: "Custom shed construction and gate installation services. We build functional, attractive structures that enhance your property.",
     workPhotos: [],
     workVideos: ["/work/sheds-video-1.mp4", "/work/sheds-video-2.mp4"],
+  },
+  "siding": {
+    name: "Siding",
+    image: "/icons/siding.png",
+    description: "Professional siding installation and repair services. We work with vinyl, fiber cement, wood, and other siding materials to protect and beautify your home.",
+    workPhotos: [],
+    workVideos: [],
   },
   "snow-removal": {
     name: "Snow Removal",
