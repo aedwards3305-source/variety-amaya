@@ -157,7 +157,7 @@ const serviceData: Record<string, {
     image: "/icons/tree-trimming.png",
     description: "Professional tree trimming and pruning services to keep your trees healthy, safe, and looking their best.",
     workPhotos: [],
-    workVideos: [],
+    workVideos: ["/work/tree-trimming-video-1.mp4", "/work/tree-trimming-video-2.mp4", "/work/tree-trimming-video-3.mp4"],
   },
   "waterproofing": {
     name: "Waterproofing",
