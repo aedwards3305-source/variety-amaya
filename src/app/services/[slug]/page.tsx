@@ -10,6 +10,7 @@ const serviceData: Record<string, {
   description: string;
   workPhotos: string[];
   workVideos: string[];
+  beforeAfterVideos?: { before: string; after: string }[];
 }> = {
   "bathrooms": {
     name: "Bathrooms",
@@ -144,6 +145,14 @@ const serviceData: Record<string, {
     workPhotos: [],
     workVideos: ["/work/waterproofing-video-1.mp4"],
   },
+  "stairs": {
+    name: "Stairs",
+    image: "/icons/stairs.png",
+    description: "Professional stair installation, repair, and refinishing services. We build and restore beautiful, safe staircases that enhance your home.",
+    workPhotos: [],
+    workVideos: [],
+    beforeAfterVideos: [{ before: "/work/stairs-before.mp4", after: "/work/stairs-after.mp4" }],
+  },
 };
 
 export default function ServicePage() {
@@ -164,7 +173,7 @@ export default function ServicePage() {
     );
   }
 
-  const hasMedia = service.workPhotos.length > 0 || service.workVideos.length > 0;
+  const hasMedia = service.workPhotos.length > 0 || service.workVideos.length > 0 || (service.beforeAfterVideos && service.beforeAfterVideos.length > 0);
 
   return (
     <div className="min-h-screen bg-white">
@@ -267,6 +276,47 @@ export default function ServicePage() {
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-300"
                     />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Before & After Videos */}
+            {service.beforeAfterVideos && service.beforeAfterVideos.length > 0 && (
+              <div className="mt-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                  Before & After
+                </h3>
+                {service.beforeAfterVideos.map((pair, index) => (
+                  <div key={index} className="flex flex-col gap-8 mb-8 max-w-3xl mx-auto">
+                    <div>
+                      <p className="text-center font-semibold text-gray-700 mb-3">Before</p>
+                      <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-black">
+                        <video
+                          src={pair.before}
+                          controls
+                          muted
+                          className="w-full h-full object-cover"
+                          playsInline
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-center font-semibold text-gray-700 mb-3">After</p>
+                      <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-black">
+                        <video
+                          src={pair.after}
+                          controls
+                          muted
+                          className="w-full h-full object-cover"
+                          playsInline
+                        >
+                          Your browser does not support the video tag.
+                        </video>
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>
