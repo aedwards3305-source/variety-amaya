@@ -22,9 +22,9 @@ const services = [
   { name: "Roofing", slug: "roofing", image: "/icons/roofing.png" },
   { name: "Sheds & Gates", slug: "sheds-gates", image: "/icons/sheds.png" },
   { name: "Snow Removal", slug: "snow-removal", image: "/icons/snow-removal.png" },
+  { name: "Stairs", slug: "stairs", image: "/icons/stairs.png" },
   { name: "Tree Trimming", slug: "tree-trimming", image: "/icons/tree-trimming.png" },
   { name: "Waterproofing", slug: "waterproofing", image: "/icons/waterproofing.png" },
-  { name: "Stairs", slug: "stairs", image: "/icons/stairs.png" },
 ];
 
 const faqs = [
@@ -195,7 +195,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('/hero-bg.jpg')] bg-cover bg-center opacity-30"></div>
         <div className="hero-overlay absolute inset-0"></div>
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="relative w-[200px] h-[200px] md:w-[250px] md:h-[250px] mx-auto mb-8 logo-glow">
+          <div className="relative w-[600px] h-[600px] md:w-[750px] md:h-[750px] mx-auto mb-8 logo-glow">
             <Image
               src="/va-logo.png"
               alt="Variety Amaya LLC"
