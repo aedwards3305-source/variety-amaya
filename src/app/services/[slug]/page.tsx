@@ -11,7 +11,7 @@ const serviceData: Record<string, {
   workPhotos: string[];
   workVideos: string[];
   beforeAfterVideos?: { before: string; after: string }[];
-  beforeAfterPhotos?: { before: string; after: string }[];
+  beforeAfterPhotos?: { before: string; after: string | string[] }[];
 }> = {
   "bathrooms": {
     name: "Bathrooms",
@@ -66,9 +66,9 @@ const serviceData: Record<string, {
     name: "Gutter Cleaning",
     image: "/icons/gutter-cleaning.png",
     description: "Keep your gutters flowing properly with our cleaning and maintenance services. We also install gutter guards to reduce future maintenance needs.",
-    workPhotos: ["/work/gutter-cleaning-1.jpg", "/work/gutter-after-2.png"],
+    workPhotos: ["/work/gutter-cleaning-1.jpg"],
     workVideos: [],
-    beforeAfterPhotos: [{ before: "/work/gutter-before-1.png", after: "/work/gutter-after-1.png" }],
+    beforeAfterPhotos: [{ before: "/work/gutter-before-1.png", after: ["/work/gutter-after-1.png", "/work/gutter-after-2.png"] }],
   },
   "junk-removal": {
     name: "Junk Removal",
@@ -273,7 +273,8 @@ export default function ServicePage() {
                   >
                     <video
                       src={video}
-                      controls
+                      autoPlay
+                      loop
                       muted
                       className="w-full h-full object-cover"
                       playsInline
@@ -317,7 +318,8 @@ export default function ServicePage() {
                       <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-black">
                         <video
                           src={pair.before}
-                          controls
+                          autoPlay
+                          loop
                           muted
                           className="w-full h-full object-cover"
                           playsInline
@@ -331,7 +333,8 @@ export default function ServicePage() {
                       <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-black">
                         <video
                           src={pair.after}
-                          controls
+                          autoPlay
+                          loop
                           muted
                           className="w-full h-full object-cover"
                           playsInline
@@ -351,32 +354,39 @@ export default function ServicePage() {
                 <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                   Before & After
                 </h3>
-                {service.beforeAfterPhotos.map((pair, index) => (
-                  <div key={index} className="flex flex-col gap-8 mb-8 max-w-3xl mx-auto">
-                    <div>
-                      <p className="text-center font-semibold text-gray-700 mb-3">Before</p>
-                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
-                        <Image
-                          src={pair.before}
-                          alt="Before"
-                          fill
-                          className="object-cover"
-                        />
+                {service.beforeAfterPhotos.map((pair, index) => {
+                  const afterPhotos = Array.isArray(pair.after) ? pair.after : [pair.after];
+                  return (
+                    <div key={index} className="flex flex-col gap-8 mb-8 max-w-4xl mx-auto">
+                      <div>
+                        <p className="text-center font-semibold text-gray-700 mb-3">Before</p>
+                        <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg max-w-2xl mx-auto">
+                          <Image
+                            src={pair.before}
+                            alt="Before"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <p className="text-center font-semibold text-gray-700 mb-3">After</p>
+                        <div className={`grid ${afterPhotos.length > 1 ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 max-w-2xl mx-auto'} gap-4`}>
+                          {afterPhotos.map((photo, photoIndex) => (
+                            <div key={photoIndex} className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
+                              <Image
+                                src={photo}
+                                alt={`After ${photoIndex + 1}`}
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                    <div>
-                      <p className="text-center font-semibold text-gray-700 mb-3">After</p>
-                      <div className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg">
-                        <Image
-                          src={pair.after}
-                          alt="After"
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
