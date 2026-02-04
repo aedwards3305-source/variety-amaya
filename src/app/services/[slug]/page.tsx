@@ -37,12 +37,12 @@ const serviceData: Record<string, {
     beforeAfterPhotos: [{ before: "/work/decks-before-1.png", after: ["/work/decks-1.jpg", "/work/decks-after-1.jpg"] }],
     beforeAfterVideos: [{ before: "/work/decks-before-video.mp4", after: "/work/decks-video-1.mp4" }],
   },
-  "drainage": {
-    name: "Drainage",
+  "drainage-retaining-walls": {
+    name: "Drainage & Retaining Walls",
     image: "/icons/drainage.png",
-    description: "Professional drainage solutions to protect your property from water damage. We install and repair French drains, downspout extensions, grading, and other drainage systems to keep water flowing away from your home.",
+    description: "Professional drainage solutions and expertly built retaining walls to protect your property. We install French drains, downspout extensions, and grading to manage water flow, plus build strong retaining walls with stone, block, and concrete to manage slopes and prevent erosion.",
     workPhotos: ["/work/drainage-1.png"],
-    workVideos: ["/work/drainage-video-1.mp4"],
+    workVideos: ["/work/drainage-video-1.mp4", "/work/retaining-walls-video-1.mp4"],
   },
   "drywalling": {
     name: "Drywalling",
@@ -135,13 +135,6 @@ const serviceData: Record<string, {
     description: "Complete home remodeling services to transform any space. We handle projects of all sizes with attention to detail and quality craftsmanship.",
     workPhotos: ["/work/remodeling-1.jpg"],
     workVideos: [],
-  },
-  "retaining-walls": {
-    name: "Retaining Walls",
-    image: "/icons/retaining-walls.png",
-    description: "Strong, expertly built retaining walls to manage slopes, prevent erosion, and add structural beauty to your landscape. We work with stone, block, and concrete to create lasting retaining wall solutions.",
-    workPhotos: [],
-    workVideos: ["/work/retaining-walls-video-1.mp4"],
   },
   "roofing": {
     name: "Roofing",
@@ -305,11 +298,11 @@ export default function ServicePage() {
 
             {/* Photos */}
             {service.workPhotos.length > 0 && (
-              <div className={`grid gap-6 ${service.workPhotos.length === 1 ? 'grid-cols-1 max-w-2xl mx-auto' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
+              <div className="flex flex-wrap justify-center gap-6">
                 {service.workPhotos.map((photo, index) => (
                   <div
                     key={index}
-                    className="relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg"
+                    className={`relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg ${service.workPhotos.length === 1 ? 'w-full max-w-2xl' : 'w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]'}`}
                   >
                     <Image
                       src={photo}
