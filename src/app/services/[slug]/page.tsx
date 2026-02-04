@@ -286,7 +286,7 @@ export default function ServicePage() {
                       autoPlay
                       loop
                       muted
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                       playsInline
                     >
                       Your browser does not support the video tag.
