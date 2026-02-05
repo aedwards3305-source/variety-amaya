@@ -69,7 +69,7 @@ const serviceData: Record<string, {
     name: "Flooring",
     image: "/icons/flooring.png",
     description: "Upgrade your floors with professional installation services. We work with hardwood, laminate, tile, vinyl, and more to transform any room.",
-    workPhotos: ["/work/flooring-1.jpg", "/work/flooring-2.png", "/work/flooring-3.png", "/work/flooring-4.png"],
+    workPhotos: ["/work/flooring-1.jpg", "/work/flooring-2.png", "/work/flooring-4.png"],
     workVideos: [],
   },
   "gutter-cleaning": {
