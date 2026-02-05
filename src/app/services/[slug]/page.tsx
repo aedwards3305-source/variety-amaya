@@ -302,13 +302,13 @@ export default function ServicePage() {
                 {service.workPhotos.map((photo, index) => (
                   <div
                     key={index}
-                    className={`relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg ${service.workPhotos.length === 1 ? 'w-full max-w-2xl' : 'w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]'}`}
+                    className={`relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-black ${service.workPhotos.length === 1 ? 'w-full max-w-2xl' : 'w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]'}`}
                   >
                     <Image
                       src={photo}
                       alt={`${service.name} work example ${index + 1}`}
                       fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
+                      className="object-contain"
                     />
                   </div>
                 ))}
