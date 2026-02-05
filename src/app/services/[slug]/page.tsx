@@ -133,7 +133,7 @@ const serviceData: Record<string, {
     name: "Remodeling",
     image: "/icons/remodeling.png",
     description: "Complete home remodeling services to transform any space. We handle projects of all sizes with attention to detail and quality craftsmanship.",
-    workPhotos: ["/work/remodeling-1.jpg"],
+    workPhotos: [],
     workVideos: [],
   },
   "roofing": {
