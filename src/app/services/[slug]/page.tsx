@@ -275,7 +275,7 @@ export default function ServicePage() {
 
             {/* Videos */}
             {service.workVideos.length > 0 && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <div className={`grid gap-6 mb-8 ${service.workVideos.length === 1 ? 'grid-cols-1 max-w-3xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
                 {service.workVideos.map((video, index) => (
                   <div
                     key={index}
