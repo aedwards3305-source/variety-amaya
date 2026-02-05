@@ -32,9 +32,8 @@ const serviceData: Record<string, {
     name: "Decks",
     image: "/icons/decks.png",
     description: "Build the outdoor living space of your dreams. We construct beautiful, durable decks using quality materials that will last for years to come.",
-    workPhotos: ["/work/decks-2.png"],
+    workPhotos: ["/work/decks-1.jpg", "/work/decks-after-1.jpg", "/work/decks-2.png"],
     workVideos: [],
-    beforeAfterPhotos: [{ before: "/work/decks-before-1.png", after: ["/work/decks-1.jpg", "/work/decks-after-1.jpg"] }],
     beforeAfterVideos: [{ before: "/work/decks-before-video.mp4", after: "/work/decks-video-1.mp4" }],
   },
   "drainage-retaining-walls": {
