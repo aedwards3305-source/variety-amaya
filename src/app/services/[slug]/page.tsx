@@ -171,7 +171,7 @@ const serviceData: Record<string, {
     workVideos: ["/work/snow-removal-video-1.mp4", "/work/snow-removal-video-2.mp4"],
   },
   "tree-trimming": {
-    name: "Tree Trimming",
+    name: "Tree Trimming / Tree Cutting",
     image: "/icons/tree-trimming.png",
     description: "Professional tree trimming and pruning services to keep your trees healthy, safe, and looking their best.",
     workPhotos: [],

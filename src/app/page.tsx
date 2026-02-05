@@ -28,7 +28,7 @@ const services = [
   { name: "Siding", slug: "siding", image: "/icons/siding.png" },
   { name: "Snow Removal", slug: "snow-removal", image: "/icons/snow-removal.png" },
   { name: "Stairs", slug: "stairs", image: "/icons/stairs.png" },
-  { name: "Tree Trimming", slug: "tree-trimming", image: "/icons/tree-trimming.png" },
+  { name: "Tree Trimming / Tree Cutting", slug: "tree-trimming", image: "/icons/tree-trimming.png" },
   { name: "Waterproofing", slug: "waterproofing", image: "/icons/waterproofing.png" },
 ];
 
