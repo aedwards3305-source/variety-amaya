@@ -281,23 +281,19 @@ export default function ServicePage() {
 
             {/* Videos */}
             {service.workVideos.length > 0 && (
-              <div className={`grid gap-6 mb-8 ${service.workVideos.length === 1 ? 'grid-cols-1 max-w-3xl mx-auto' : 'grid-cols-1 md:grid-cols-2'}`}>
+              <div className="flex flex-col items-center gap-6 mb-8">
                 {service.workVideos.map((video, index) => (
-                  <div
+                  <video
                     key={index}
-                    className="relative aspect-video rounded-xl overflow-hidden shadow-lg bg-black"
+                    src={video}
+                    autoPlay
+                    loop
+                    muted
+                    className="w-full max-w-3xl rounded-xl shadow-lg"
+                    playsInline
                   >
-                    <video
-                      src={video}
-                      autoPlay
-                      loop
-                      muted
-                      className="w-full h-full object-contain"
-                      playsInline
-                    >
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
+                    Your browser does not support the video tag.
+                  </video>
                 ))}
               </div>
             )}
@@ -383,19 +379,14 @@ export default function ServicePage() {
 
             {/* Photos */}
             {service.workPhotos.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-6">
+              <div className="flex flex-col items-center gap-6">
                 {service.workPhotos.map((photo, index) => (
-                  <div
+                  <img
                     key={index}
-                    className={`relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-black ${service.workPhotos.length === 1 ? 'w-full max-w-2xl' : 'w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]'}`}
-                  >
-                    <Image
-                      src={photo}
-                      alt={`${service.name} work example ${index + 1}`}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
+                    src={photo}
+                    alt={`${service.name} work example ${index + 1}`}
+                    className="w-full max-w-3xl rounded-xl shadow-lg"
+                  />
                 ))}
               </div>
             )}
