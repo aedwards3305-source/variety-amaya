@@ -32,9 +32,8 @@ const serviceData: Record<string, {
     name: "Decks",
     image: "/icons/decks.png",
     description: "Build the outdoor living space of your dreams. We construct beautiful, durable decks using quality materials that will last for years to come.",
-    workPhotos: ["/work/decks-1.jpg", "/work/decks-after-1.jpg", "/work/decks-2.png"],
-    workVideos: [],
-    beforeAfterVideos: [{ before: "/work/decks-before-video.mp4", after: "/work/decks-video-1.mp4" }],
+    workPhotos: ["/work/decks-1.png", "/work/decks-2.jpg", "/work/decks-3.png", "/work/decks-5.png"],
+    workVideos: ["/work/decks-after-video.mp4"],
   },
   "drainage-retaining-walls": {
     name: "Drainage & Retaining Walls",
@@ -78,6 +77,13 @@ const serviceData: Record<string, {
     workPhotos: [],
     workVideos: [],
     beforeAfterPhotos: [{ before: "/work/gutter-before-1.png", after: ["/work/gutter-after-1.png", "/work/gutter-after-2.png", "/work/gutter-cleaning-1.jpg"] }],
+  },
+  "hvac": {
+    name: "HVAC",
+    image: "/icons/hvac.png",
+    description: "Professional heating, ventilation, and air conditioning services. We handle installations, repairs, and maintenance to keep your home comfortable year-round.",
+    workPhotos: [],
+    workVideos: [],
   },
   "junk-removal": {
     name: "Junk Removal",

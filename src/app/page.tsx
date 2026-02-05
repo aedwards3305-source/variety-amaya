@@ -14,6 +14,7 @@ const services = [
   { name: "Fences", slug: "fences", image: "/icons/fences.png" },
   { name: "Flooring", slug: "flooring", image: "/icons/flooring.png" },
   { name: "Gutter Cleaning", slug: "gutter-cleaning", image: "/icons/gutter-cleaning.png" },
+  { name: "HVAC", slug: "hvac", image: "/icons/hvac.png" },
   { name: "Junk Removal", slug: "junk-removal", image: "/icons/junk-removal.png" },
   { name: "Kitchens", slug: "kitchens", image: "/icons/kitchens.png" },
   { name: "Landscaping", slug: "landscaping", image: "/icons/landscaping.png" },
