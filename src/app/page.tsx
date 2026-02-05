@@ -8,7 +8,7 @@ const services = [
   { name: "Bathrooms", slug: "bathrooms", image: "/icons/bathrooms.png" },
   { name: "Concrete", slug: "concrete", image: "/icons/concrete.png" },
   { name: "Decks", slug: "decks", image: "/icons/decks.png" },
-  { name: "Drainage & Retaining Walls", slug: "drainage-retaining-walls", image: "/icons/drainage.png" },
+  { name: "Drainage & Retaining Walls", slug: "drainage-retaining-walls", image: "/icons/drainage-retaining.png" },
   { name: "Drywalling", slug: "drywalling", image: "/icons/drywalling.png" },
   { name: "Electrical Work", slug: "electrical-work", image: "/icons/electrical.png" },
   { name: "Fences", slug: "fences", image: "/icons/fences.png" },

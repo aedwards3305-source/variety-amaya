@@ -38,7 +38,7 @@ const serviceData: Record<string, {
   },
   "drainage-retaining-walls": {
     name: "Drainage & Retaining Walls",
-    image: "/icons/drainage.png",
+    image: "/icons/drainage-retaining.png",
     description: "Professional drainage solutions and expertly built retaining walls to protect your property. We install French drains, downspout extensions, and grading to manage water flow, plus build strong retaining walls with stone, block, and concrete to manage slopes and prevent erosion.",
     workPhotos: ["/work/drainage-2.jpg"],
     workVideos: ["/work/drainage-video-1.mp4", "/work/retaining-walls-video-1.mp4"],
