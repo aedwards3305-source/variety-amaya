@@ -296,31 +296,9 @@ export default function ServicePage() {
               </div>
             )}
 
-            {/* Photos */}
-            {service.workPhotos.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-6">
-                {service.workPhotos.map((photo, index) => (
-                  <div
-                    key={index}
-                    className={`relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-black ${service.workPhotos.length === 1 ? 'w-full max-w-2xl' : 'w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]'}`}
-                  >
-                    <Image
-                      src={photo}
-                      alt={`${service.name} work example ${index + 1}`}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-
             {/* Before & After Videos */}
             {service.beforeAfterVideos && service.beforeAfterVideos.length > 0 && (
               <div className="mt-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                  Before & After
-                </h3>
                 {service.beforeAfterVideos.map((pair, index) => (
                   <div key={index} className="flex flex-col gap-8 mb-8 max-w-3xl mx-auto">
                     <div>
@@ -361,9 +339,6 @@ export default function ServicePage() {
             {/* Before & After Photos */}
             {service.beforeAfterPhotos && service.beforeAfterPhotos.length > 0 && (
               <div className="mt-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                  Before & After
-                </h3>
                 {service.beforeAfterPhotos.map((pair, index) => {
                   const afterPhotos = Array.isArray(pair.after) ? pair.after : [pair.after];
                   return (
@@ -397,6 +372,25 @@ export default function ServicePage() {
                     </div>
                   );
                 })}
+              </div>
+            )}
+
+            {/* Photos */}
+            {service.workPhotos.length > 0 && (
+              <div className="flex flex-wrap justify-center gap-6">
+                {service.workPhotos.map((photo, index) => (
+                  <div
+                    key={index}
+                    className={`relative aspect-[4/3] rounded-xl overflow-hidden shadow-lg bg-black ${service.workPhotos.length === 1 ? 'w-full max-w-2xl' : 'w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]'}`}
+                  >
+                    <Image
+                      src={photo}
+                      alt={`${service.name} work example ${index + 1}`}
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                ))}
               </div>
             )}
           </div>
