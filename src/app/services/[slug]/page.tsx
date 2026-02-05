@@ -69,7 +69,7 @@ const serviceData: Record<string, {
     name: "Flooring",
     image: "/icons/flooring.png",
     description: "Upgrade your floors with professional installation services. We work with hardwood, laminate, tile, vinyl, and more to transform any room.",
-    workPhotos: ["/work/flooring-1.jpg"],
+    workPhotos: ["/work/flooring-1.jpg", "/work/flooring-2.png", "/work/flooring-3.png"],
     workVideos: [],
   },
   "gutter-cleaning": {
@@ -105,8 +105,9 @@ const serviceData: Record<string, {
     name: "Masonry",
     image: "/icons/masonry.png",
     description: "Expert masonry services including brick, stone, and block work. We build and repair walls, chimneys, patios, and other masonry structures with precision craftsmanship.",
-    workPhotos: ["/work/masonry-1.png", "/work/masonry-2.png", "/work/masonry-3.png", "/work/masonry-4.png", "/work/masonry-5.png"],
+    workPhotos: [],
     workVideos: [],
+    beforeAfterPhotos: [{ before: "/work/masonry-5.png", after: ["/work/masonry-1.png", "/work/masonry-2.png", "/work/masonry-3.png", "/work/masonry-4.png"] }],
   },
   "painting": {
     name: "Painting",
