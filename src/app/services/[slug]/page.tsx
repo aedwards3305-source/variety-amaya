@@ -10,6 +10,7 @@ const serviceData: Record<string, {
   description: string;
   workPhotos: string[];
   workVideos: string[];
+  orderedMedia?: string[];
   beforeAfterVideos?: { before: string; after: string }[];
   beforeAfterPhotos?: { before: string; after: string | string[] }[];
 }> = {
@@ -34,6 +35,7 @@ const serviceData: Record<string, {
     description: "Build the outdoor living space of your dreams. We construct beautiful, durable decks using quality materials that will last for years to come.",
     workPhotos: [],
     workVideos: [],
+    orderedMedia: ["/work/decks-1.png", "/work/decks-2.jpg", "/work/decks-3.jpg", "/work/decks-4.mp4", "/work/decks-5.png", "/work/decks-6.mp4"],
   },
   "drainage-retaining-walls": {
     name: "Drainage & Retaining Walls",
@@ -212,7 +214,7 @@ export default function ServicePage() {
     );
   }
 
-  const hasMedia = service.workPhotos.length > 0 || service.workVideos.length > 0 || (service.beforeAfterVideos && service.beforeAfterVideos.length > 0) || (service.beforeAfterPhotos && service.beforeAfterPhotos.length > 0);
+  const hasMedia = service.workPhotos.length > 0 || service.workVideos.length > 0 || (service.orderedMedia && service.orderedMedia.length > 0) || (service.beforeAfterVideos && service.beforeAfterVideos.length > 0) || (service.beforeAfterPhotos && service.beforeAfterPhotos.length > 0);
 
   return (
     <div className="min-h-screen bg-white">
@@ -278,6 +280,35 @@ export default function ServicePage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
               Our {service.name} Work
             </h2>
+
+            {/* Ordered Media (mixed photos and videos in exact order) */}
+            {service.orderedMedia && service.orderedMedia.length > 0 && (
+              <div className="flex flex-col items-center gap-6 mb-8">
+                {service.orderedMedia.map((src, index) => {
+                  const isVideo = src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov');
+                  return isVideo ? (
+                    <video
+                      key={index}
+                      src={src}
+                      autoPlay
+                      loop
+                      muted
+                      className="w-full max-w-3xl rounded-xl shadow-lg"
+                      playsInline
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <img
+                      key={index}
+                      src={src}
+                      alt={`${service.name} work example ${index + 1}`}
+                      className="w-full max-w-3xl rounded-xl shadow-lg"
+                    />
+                  );
+                })}
+              </div>
+            )}
 
             {/* Videos */}
             {service.workVideos.length > 0 && (
