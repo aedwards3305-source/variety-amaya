@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const services = [
   { name: "Bathrooms", slug: "bathrooms", image: "/icons/bathrooms.png" },
@@ -597,6 +598,9 @@ export default function Home() {
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-500">
             <p>© {new Date().getFullYear()} Variety Amaya LLC. All rights reserved.</p>
             <p className="mt-2 text-sm">Licensed & Insured | Serving the DMV Area</p>
+            <Link href="/admin" className="inline-block mt-4 text-gray-800 hover:text-gray-500 transition-colors text-xs select-none" aria-label="Admin">
+              &#9679;
+            </Link>
           </div>
         </div>
       </footer>
