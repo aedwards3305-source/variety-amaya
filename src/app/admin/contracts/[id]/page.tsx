@@ -20,14 +20,21 @@ export default function ContractViewPage() {
 
   const pwd = typeof window !== "undefined" ? sessionStorage.getItem("adminPwd") : null;
 
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (retries = 2) => {
     if (!pwd) return;
     try {
       const [cRes, sRes] = await Promise.all([
         fetch(`/api/admin/contracts/${id}`, { headers: { "x-admin-password": pwd } }),
         fetch("/api/admin/company-settings", { headers: { "x-admin-password": pwd } }),
       ]);
-      if (!cRes.ok) throw new Error("Contract not found");
+      if (!cRes.ok) {
+        if (cRes.status === 404 && retries > 0) {
+          // Blob storage may need a moment to propagate after creation
+          await new Promise((r) => setTimeout(r, 1000));
+          return loadData(retries - 1);
+        }
+        throw new Error("Contract not found");
+      }
       const [c, s] = await Promise.all([cRes.json(), sRes.json()]);
       setContract(c);
       setSettings(s);

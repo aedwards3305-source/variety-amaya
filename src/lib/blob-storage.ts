@@ -36,7 +36,7 @@ export async function readJSON<T>(filename: string, fallback: T): Promise<T> {
       }
       return fallback;
     }
-    const response = await fetch(blobs[0].url);
+    const response = await fetch(blobs[0].url, { cache: "no-store" });
     const text = await response.text();
     return JSON.parse(text);
   } catch {
@@ -60,5 +60,6 @@ export async function writeJSON(filename: string, data: unknown): Promise<void> 
   await put(filename, JSON.stringify(data, null, 2), {
     access: "public",
     addRandomSuffix: false,
+    cacheControlMaxAge: 0,
   });
 }
