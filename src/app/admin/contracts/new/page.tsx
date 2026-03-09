@@ -253,12 +253,52 @@ export default function NewContractPage() {
             )}
             <div className="mt-4">
               <label className={labelClass}>Payment Schedule</label>
+              <div className="flex flex-wrap gap-2 mb-2">
+                {[
+                  "Deposit due upon signing",
+                  "50% due at project midpoint",
+                  "Balance due upon completion",
+                  "Net 30 after completion",
+                  "Progress payments as work is completed",
+                  "Full payment due upon signing",
+                ].map((item) => {
+                  const isSelected = form.paymentSchedule.includes(item);
+                  return (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => {
+                        if (isSelected) {
+                          const updated = form.paymentSchedule
+                            .split("\n")
+                            .filter((line) => line.trim() !== item)
+                            .join("\n")
+                            .trim();
+                          set("paymentSchedule", updated);
+                        } else {
+                          const updated = form.paymentSchedule.trim()
+                            ? form.paymentSchedule.trim() + "\n" + item
+                            : item;
+                          set("paymentSchedule", updated);
+                        }
+                      }}
+                      className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${
+                        isSelected
+                          ? "bg-[#D4AF37]/20 border-[#D4AF37] text-[#D4AF37]"
+                          : "bg-gray-800 border-gray-700 text-gray-400 hover:border-gray-500 hover:text-gray-300"
+                      }`}
+                    >
+                      {isSelected ? "✓ " : "+ "}{item}
+                    </button>
+                  );
+                })}
+              </div>
               <textarea
                 value={form.paymentSchedule}
                 onChange={(e) => set("paymentSchedule", e.target.value)}
                 rows={3}
                 className={`${inputClass} resize-none`}
-                placeholder="e.g., 50% deposit upon signing, 25% at midpoint, 25% upon completion"
+                placeholder="Select common terms above or type custom payment schedule..."
               />
             </div>
           </div>
