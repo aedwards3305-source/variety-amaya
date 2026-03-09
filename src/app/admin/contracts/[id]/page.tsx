@@ -20,7 +20,7 @@ export default function ContractViewPage() {
 
   const pwd = typeof window !== "undefined" ? sessionStorage.getItem("adminPwd") : null;
 
-  const loadData = useCallback(async (retries = 2) => {
+  const loadData = useCallback(async (retries = 2): Promise<void> => {
     if (!pwd) return;
     try {
       const [cRes, sRes] = await Promise.all([
@@ -29,7 +29,6 @@ export default function ContractViewPage() {
       ]);
       if (!cRes.ok) {
         if (cRes.status === 404 && retries > 0) {
-          // Blob storage may need a moment to propagate after creation
           await new Promise((r) => setTimeout(r, 1000));
           return loadData(retries - 1);
         }
@@ -38,9 +37,9 @@ export default function ContractViewPage() {
       const [c, s] = await Promise.all([cRes.json(), sRes.json()]);
       setContract(c);
       setSettings(s);
+      setLoading(false);
     } catch {
       setError("Failed to load contract");
-    } finally {
       setLoading(false);
     }
   }, [id, pwd]);
