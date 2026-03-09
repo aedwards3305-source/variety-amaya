@@ -42,6 +42,8 @@ export default function NewContractPage() {
   const [form, setForm] = useState<FormData>(empty);
   const [errors, setErrors] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
+  const [savingDraft, setSavingDraft] = useState(false);
+  const [draftSaved, setDraftSaved] = useState(false);
   const pwd = typeof window !== "undefined" ? sessionStorage.getItem("adminPwd") : null;
 
   if (!pwd) {
@@ -100,6 +102,30 @@ export default function NewContractPage() {
     } catch {
       setErrors(["Failed to save contract. Please try again."]);
       setSubmitting(false);
+    }
+  };
+
+  const saveDraft = async () => {
+    if (!form.customerName.trim()) {
+      setErrors(["Customer name is required to save a draft"]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    setErrors([]);
+    setSavingDraft(true);
+
+    try {
+      const res = await fetch("/api/admin/contracts", {
+        method: "POST",
+        headers: { "x-admin-password": pwd!, "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, isDraft: true }),
+      });
+      if (!res.ok) throw new Error("Failed to save draft");
+      setDraftSaved(true);
+      setTimeout(() => router.push("/admin/contracts"), 1000);
+    } catch {
+      setErrors(["Failed to save draft. Please try again."]);
+      setSavingDraft(false);
     }
   };
 
@@ -269,32 +295,62 @@ export default function NewContractPage() {
           </div>
 
           {/* ─── ACTIONS ─── */}
+          {draftSaved && (
+            <div className="bg-green-900/30 border border-green-800 rounded-xl p-4 mb-4">
+              <p className="text-green-400 text-sm font-medium">Draft saved! Redirecting...</p>
+            </div>
+          )}
           <div className="flex items-center justify-between">
             <Link href="/admin/contracts" className="text-gray-400 hover:text-white text-sm transition-colors">
               Cancel
             </Link>
-            <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#B8960C] disabled:bg-gray-700 disabled:text-gray-500 text-black font-semibold px-8 py-3 rounded-lg text-sm transition-colors"
-            >
-              {submitting ? (
-                <>
-                  <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  Generating...
-                </>
-              ) : (
-                <>
-                  Generate Contract
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </>
-              )}
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={saveDraft}
+                disabled={savingDraft || submitting}
+                className="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-700 disabled:text-gray-500 text-white px-6 py-3 rounded-lg text-sm transition-colors border border-gray-700"
+              >
+                {savingDraft ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                    </svg>
+                    Save Draft
+                  </>
+                )}
+              </button>
+              <button
+                type="submit"
+                disabled={submitting || savingDraft}
+                className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#B8960C] disabled:bg-gray-700 disabled:text-gray-500 text-black font-semibold px-8 py-3 rounded-lg text-sm transition-colors"
+              >
+                {submitting ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    Generate Contract
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           {/* Disclaimer */}
