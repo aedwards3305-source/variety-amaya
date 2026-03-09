@@ -52,6 +52,11 @@ export default function AdminPage() {
   const [toast, setToast] = useState<{ message: string; type: "success" | "error" } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [changingPassword, setChangingPassword] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const baBeforeInputRef = useRef<HTMLInputElement>(null);
@@ -122,6 +127,40 @@ export default function AdminPage() {
     setServices({});
     setSelectedSlug(null);
     setEditData(null);
+  };
+
+  const handleChangePassword = async () => {
+    setPasswordError("");
+    if (newPassword.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+    setChangingPassword(true);
+    try {
+      const res = await fetch("/api/admin/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify({ newPassword }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Failed to change password");
+      }
+      sessionStorage.setItem("adminPwd", newPassword);
+      setPassword(newPassword);
+      setShowPasswordModal(false);
+      setNewPassword("");
+      setConfirmPassword("");
+      showToast("Password changed successfully", "success");
+    } catch (err) {
+      setPasswordError(err instanceof Error ? err.message : "Failed to change password");
+    } finally {
+      setChangingPassword(false);
+    }
   };
 
   const selectService = (slug: string) => {
@@ -468,6 +507,12 @@ export default function AdminPage() {
             </span>
           )}
           <button
+            onClick={() => { setShowPasswordModal(true); setNewPassword(""); setConfirmPassword(""); setPasswordError(""); }}
+            className="text-gray-400 hover:text-white text-sm transition-colors"
+          >
+            Change Password
+          </button>
+          <button
             onClick={handleLogout}
             className="text-gray-400 hover:text-white text-sm transition-colors"
           >
@@ -475,6 +520,57 @@ export default function AdminPage() {
           </button>
         </div>
       </header>
+
+      {/* Change Password Modal */}
+      {showPasswordModal && (
+        <div className="fixed inset-0 z-[100] bg-black/70 flex items-center justify-center p-4">
+          <div className="bg-gray-900 rounded-2xl w-full max-w-sm border border-gray-800 p-6">
+            <h3 className="text-lg font-bold text-white mb-4">Change Password</h3>
+            <div className="space-y-3">
+              <div>
+                <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1">New Password</label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:ring-1 focus:ring-[#D4AF37] focus:border-transparent outline-none"
+                  placeholder="Min 6 characters"
+                  autoFocus
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Confirm Password</label>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:ring-1 focus:ring-[#D4AF37] focus:border-transparent outline-none"
+                  placeholder="Re-enter password"
+                />
+              </div>
+              {passwordError && <p className="text-red-400 text-sm">{passwordError}</p>}
+            </div>
+            <div className="flex gap-3 mt-5">
+              <button
+                onClick={handleChangePassword}
+                disabled={changingPassword}
+                className="flex-1 py-2.5 bg-[#D4AF37] hover:bg-[#B8960C] text-black font-semibold rounded-lg text-sm transition-colors"
+              >
+                {changingPassword ? "Saving..." : "Update Password"}
+              </button>
+              <button
+                onClick={() => setShowPasswordModal(false)}
+                className="px-5 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-gray-300 text-sm transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+            <p className="text-xs text-gray-600 mt-3">
+              Note: For production, also update ADMIN_PASSWORD in Vercel environment variables and redeploy.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="pt-16 flex">
         {/* Sidebar */}
