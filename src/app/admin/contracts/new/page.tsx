@@ -121,8 +121,8 @@ export default function NewContractPage() {
         body: JSON.stringify({ ...form, isDraft: true }),
       });
       if (!res.ok) throw new Error("Failed to save draft");
-      setDraftSaved(true);
-      setTimeout(() => router.push("/admin/contracts"), 1000);
+      const contract = await res.json();
+      router.push(`/admin/contracts/${contract.id}`);
     } catch {
       setErrors(["Failed to save draft. Please try again."]);
       setSavingDraft(false);
