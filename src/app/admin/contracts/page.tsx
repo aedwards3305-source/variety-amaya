@@ -101,15 +101,15 @@ export default function ContractsDashboard() {
     <div className="min-h-screen bg-gray-950 text-white">
       {/* Top Bar */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black border-b border-gray-800 h-16 flex items-center px-4 lg:px-6">
-        <div className="flex items-center gap-3">
-          <div className="relative w-10 h-10">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="relative w-10 h-10 shrink-0">
             <Image src="/va-logo.png" alt="VA" fill className="object-contain" />
           </div>
-          <h1 className="text-lg font-bold">
+          <h1 className="text-lg font-bold hidden sm:block">
             <span className="text-[#D4AF37]">Variety Amaya</span> Admin
           </h1>
         </div>
-        <nav className="ml-8 flex items-center gap-1">
+        <nav className="ml-4 sm:ml-8 flex items-center gap-1">
           <Link href="/admin" className="px-3 py-1.5 rounded-md text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
             Media
           </Link>
@@ -117,18 +117,25 @@ export default function ContractsDashboard() {
             Contracts
           </span>
         </nav>
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex items-center gap-2 sm:gap-3">
           <button
             onClick={() => { setEditSettings(settings ? { ...settings } : null); setShowSettings(true); }}
             className="text-gray-400 hover:text-white text-sm transition-colors"
           >
-            Settings
+            <span className="hidden sm:inline">Settings</span>
+            <svg className="w-5 h-5 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </button>
           <button
             onClick={() => { sessionStorage.removeItem("adminPwd"); window.location.href = "/admin"; }}
             className="text-gray-400 hover:text-white text-sm transition-colors"
           >
-            Log Out
+            <span className="hidden sm:inline">Log Out</span>
+            <svg className="w-5 h-5 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
           </button>
         </div>
       </header>
@@ -168,12 +175,12 @@ export default function ContractsDashboard() {
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-3 mb-6">
-          <div className="flex gap-1 bg-gray-900 rounded-lg p-1">
+          <div className="flex gap-1 bg-gray-900 rounded-lg p-1 overflow-x-auto">
             {(["all", "draft", "sent", "signed", "completed", "cancelled"] as const).map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
-                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-colors whitespace-nowrap ${
                   filter === f ? "bg-[#D4AF37] text-black" : "text-gray-400 hover:text-white"
                 }`}
               >
@@ -208,14 +215,41 @@ export default function ContractsDashboard() {
             )}
           </div>
         ) : (
-          <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden">
+          <>
+          {/* Mobile card layout */}
+          <div className="space-y-3 md:hidden">
+            {filtered.map((c) => {
+              const statusCfg = STATUS_CONFIG[c.status];
+              return (
+                <Link key={c.id} href={`/admin/contracts/${c.id}`} className="block bg-gray-900 rounded-xl border border-gray-800 p-4 active:bg-gray-800 transition-colors">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[#D4AF37] font-medium text-sm">{c.contractNumber}</span>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusCfg.bg} ${statusCfg.text}`}>
+                      {statusCfg.label}
+                    </span>
+                  </div>
+                  <p className="text-white font-medium">{c.customerName}</p>
+                  <p className="text-gray-400 text-sm truncate mt-0.5">{c.projectAddress}</p>
+                  <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-800">
+                    <span className="text-[#D4AF37] font-bold">
+                      {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(c.totalPrice)}
+                    </span>
+                    <span className="text-gray-500 text-xs">{new Date(c.createdAt).toLocaleDateString()}</span>
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Desktop table layout */}
+          <div className="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden hidden md:block">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-800">
                     <th className="text-left px-4 py-3 text-xs text-gray-500 uppercase tracking-wider font-medium">Contract</th>
                     <th className="text-left px-4 py-3 text-xs text-gray-500 uppercase tracking-wider font-medium">Customer</th>
-                    <th className="text-left px-4 py-3 text-xs text-gray-500 uppercase tracking-wider font-medium hidden md:table-cell">Project</th>
+                    <th className="text-left px-4 py-3 text-xs text-gray-500 uppercase tracking-wider font-medium">Project</th>
                     <th className="text-right px-4 py-3 text-xs text-gray-500 uppercase tracking-wider font-medium">Amount</th>
                     <th className="text-center px-4 py-3 text-xs text-gray-500 uppercase tracking-wider font-medium">Status</th>
                     <th className="text-right px-4 py-3 text-xs text-gray-500 uppercase tracking-wider font-medium">Date</th>
@@ -233,7 +267,7 @@ export default function ContractsDashboard() {
                           </Link>
                         </td>
                         <td className="px-4 py-3 text-gray-300">{c.customerName}</td>
-                        <td className="px-4 py-3 text-gray-400 hidden md:table-cell truncate max-w-[200px]">{c.projectAddress}</td>
+                        <td className="px-4 py-3 text-gray-400 truncate max-w-[200px]">{c.projectAddress}</td>
                         <td className="px-4 py-3 text-right font-medium">
                           {new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(c.totalPrice)}
                         </td>
@@ -281,6 +315,7 @@ export default function ContractsDashboard() {
               </table>
             </div>
           </div>
+          </>
         )}
       </main>
 

@@ -484,15 +484,15 @@ export default function AdminPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        <div className="flex items-center gap-3">
-          <div className="relative w-10 h-10">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="relative w-10 h-10 shrink-0">
             <Image src="/va-logo.png" alt="VA" fill className="object-contain" />
           </div>
-          <h1 className="text-lg font-bold">
+          <h1 className="text-lg font-bold hidden sm:block">
             <span className="text-[#D4AF37]">Variety Amaya</span> Admin
           </h1>
         </div>
-        <nav className="ml-8 hidden sm:flex items-center gap-1">
+        <nav className="ml-4 sm:ml-8 flex items-center gap-1">
           <span className="px-3 py-1.5 rounded-md text-sm bg-[#D4AF37]/10 text-[#D4AF37] font-medium">
             Media
           </span>
@@ -500,9 +500,9 @@ export default function AdminPage() {
             Contracts
           </Link>
         </nav>
-        <div className="ml-auto flex items-center gap-4">
+        <div className="ml-auto flex items-center gap-2 sm:gap-4">
           {hasChanges && (
-            <span className="text-xs bg-yellow-600/20 text-yellow-400 px-3 py-1 rounded-full">
+            <span className="text-xs bg-yellow-600/20 text-yellow-400 px-3 py-1 rounded-full hidden sm:inline">
               Unsaved changes
             </span>
           )}
@@ -510,13 +510,19 @@ export default function AdminPage() {
             onClick={() => { setShowPasswordModal(true); setNewPassword(""); setConfirmPassword(""); setPasswordError(""); }}
             className="text-gray-400 hover:text-white text-sm transition-colors"
           >
-            Change Password
+            <span className="hidden sm:inline">Change Password</span>
+            <svg className="w-5 h-5 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+            </svg>
           </button>
           <button
             onClick={handleLogout}
             className="text-gray-400 hover:text-white text-sm transition-colors"
           >
-            Log Out
+            <span className="hidden sm:inline">Log Out</span>
+            <svg className="w-5 h-5 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
           </button>
         </div>
       </header>
