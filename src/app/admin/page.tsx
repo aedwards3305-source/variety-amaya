@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface BeforeAfterVideo {
   before: string;
@@ -452,6 +453,14 @@ export default function AdminPage() {
             <span className="text-[#D4AF37]">Variety Amaya</span> Admin
           </h1>
         </div>
+        <nav className="ml-8 hidden sm:flex items-center gap-1">
+          <span className="px-3 py-1.5 rounded-md text-sm bg-[#D4AF37]/10 text-[#D4AF37] font-medium">
+            Media
+          </span>
+          <Link href="/admin/contracts" className="px-3 py-1.5 rounded-md text-sm text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
+            Contracts
+          </Link>
+        </nav>
         <div className="ml-auto flex items-center gap-4">
           {hasChanges && (
             <span className="text-xs bg-yellow-600/20 text-yellow-400 px-3 py-1 rounded-full">

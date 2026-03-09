@@ -1,0 +1,22 @@
+[
+  {
+    "id": "contract-1773088496254",
+    "contractNumber": "VA-2026-001",
+    "status": "sent",
+    "createdAt": "2026-03-09T20:34:56.254Z",
+    "updatedAt": "2026-03-09T20:38:44.331Z",
+    "customerName": "James & Patricia Rivera",
+    "customerAddress": "4821 Maple Ridge Dr, Centreville, VA 20120",
+    "customerPhone": "(571) 555-0198",
+    "customerEmail": "rivera.family@email.com",
+    "projectAddress": "4821 Maple Ridge Dr, Centreville, VA 20120",
+    "scopeOfWork": "Complete deck demolition and rebuild. Remove existing 12x16 pressure-treated wood deck including railing, stairs, and footings. Install new 14x18 composite deck with aluminum railing system and built-in bench seating. Includes 4-step staircase with composite treads. All work to meet Fairfax County building code. Permit included.",
+    "totalPrice": 18500,
+    "depositAmount": 5550,
+    "paymentSchedule": "30% deposit upon signing. 40% due at framing completion. 30% balance due upon final inspection.",
+    "startDate": "2026-04-14",
+    "estimatedCompletionDate": "2026-05-09",
+    "projectDuration": "3-4 weeks",
+    "specialNotes": "Customer to remove patio furniture before start date. Work hours Mon-Sat 7:30 AM - 5:00 PM. HOA approval on file."
+  }
+]
