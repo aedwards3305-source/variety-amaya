@@ -98,6 +98,7 @@ export default function NewContractPage() {
       });
       if (!res.ok) throw new Error("Failed to create contract");
       const contract = await res.json();
+      sessionStorage.setItem(`contract-cache-${contract.id}`, JSON.stringify(contract));
       router.push(`/admin/contracts/${contract.id}`);
     } catch {
       setErrors(["Failed to save contract. Please try again."]);
@@ -122,6 +123,7 @@ export default function NewContractPage() {
       });
       if (!res.ok) throw new Error("Failed to save draft");
       const contract = await res.json();
+      sessionStorage.setItem(`contract-cache-${contract.id}`, JSON.stringify(contract));
       router.push(`/admin/contracts/${contract.id}`);
     } catch {
       setErrors(["Failed to save draft. Please try again."]);

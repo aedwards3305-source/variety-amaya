@@ -20,23 +20,27 @@ export default function ContractViewPage() {
 
   const pwd = typeof window !== "undefined" ? sessionStorage.getItem("adminPwd") : null;
 
-  const loadData = useCallback(async (retries = 2): Promise<void> => {
+  const loadData = useCallback(async (): Promise<void> => {
     if (!pwd) return;
     try {
-      const [cRes, sRes] = await Promise.all([
-        fetch(`/api/admin/contracts/${id}`, { headers: { "x-admin-password": pwd } }),
-        fetch("/api/admin/company-settings", { headers: { "x-admin-password": pwd } }),
-      ]);
-      if (!cRes.ok) {
-        if (cRes.status === 404 && retries > 0) {
-          await new Promise((r) => setTimeout(r, 1000));
-          return loadData(retries - 1);
-        }
-        throw new Error("Contract not found");
+      // Use cached contract data if available (avoids Vercel Blob propagation delay)
+      const cached = sessionStorage.getItem(`contract-cache-${id}`);
+      if (cached) sessionStorage.removeItem(`contract-cache-${id}`);
+
+      const sRes = await fetch("/api/admin/company-settings", { headers: { "x-admin-password": pwd } });
+
+      let contractData;
+      if (cached) {
+        contractData = JSON.parse(cached);
+      } else {
+        const cRes = await fetch(`/api/admin/contracts/${id}`, { headers: { "x-admin-password": pwd } });
+        if (!cRes.ok) throw new Error("Contract not found");
+        contractData = await cRes.json();
       }
-      const [c, s] = await Promise.all([cRes.json(), sRes.json()]);
-      setContract(c);
-      setSettings(s);
+
+      const settingsData = await sRes.json();
+      setContract(contractData);
+      setSettings(settingsData);
       setLoading(false);
     } catch {
       setError("Failed to load contract");

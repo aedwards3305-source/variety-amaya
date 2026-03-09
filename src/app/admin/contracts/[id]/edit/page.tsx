@@ -153,6 +153,8 @@ export default function EditContractPage() {
         body: JSON.stringify(body),
       });
       if (!res.ok) throw new Error("Failed to save");
+      const updated = await res.json();
+      sessionStorage.setItem(`contract-cache-${id}`, JSON.stringify(updated));
       router.push(`/admin/contracts/${id}`);
     } catch {
       setErrors(["Failed to save contract. Please try again."]);
