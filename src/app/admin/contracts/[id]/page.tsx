@@ -99,7 +99,12 @@ export default function ContractViewPage() {
         headers: { "x-admin-password": pwd, "Content-Type": "application/json" },
         body: JSON.stringify({ contractId: contract.id }),
       });
-      const data = await res.json();
+      let data;
+      try {
+        data = await res.json();
+      } catch {
+        throw new Error("Server error — check Vercel logs for details");
+      }
       if (!res.ok) throw new Error(data.error || "Failed to send");
       setEmailSent(true);
       // Update local contract status if it was draft
@@ -384,7 +389,7 @@ export default function ContractViewPage() {
             </div>
 
             <p className="text-xs text-gray-600 mt-3 text-center">
-              Tip: Download the PDF first, then attach it when emailing the customer.
+              The PDF is automatically attached when emailing the customer.
             </p>
           </div>
         </div>
