@@ -235,7 +235,7 @@ export function ContractPDF({ contract, settings, logoUrl }: Props) {
         {/* ─── 8. LIABILITY ─── */}
         <Text style={s.sectionTitle}>8. Liability &amp; Insurance</Text>
         <Text style={s.clause}>
-          Contractor maintains general liability insurance and workers compensation coverage as required by law. Contractor is not responsible for pre-existing conditions not identified in the scope of work. Customer is responsible for maintaining homeowner insurance during the project.
+          Contractor maintains general liability insurance through {settings.insurance || "a licensed insurance provider"}{settings.license ? `, Virginia Contractor License #${settings.license}` : ""}. Contractor is not responsible for pre-existing conditions not identified in the scope of work. Customer is responsible for maintaining homeowner insurance during the project.
         </Text>
 
         {/* ─── 9. DISPUTES ─── */}

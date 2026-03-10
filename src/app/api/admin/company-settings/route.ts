@@ -7,8 +7,8 @@ const DEFAULT_SETTINGS = {
   phone: "(703) 677-0440",
   email: "",
   website: "varietyamaya.net",
-  license: "",
-  insurance: "",
+  license: "2638609",
+  insurance: "Nautilus Insurance Company NAIC #17370",
   tagline: "Serving Our Community",
   logoPath: "/va-logo.png",
 };
