@@ -97,7 +97,7 @@ export default function ContractViewPage() {
       const res = await fetch("/api/admin/send-contract", {
         method: "POST",
         headers: { "x-admin-password": pwd, "Content-Type": "application/json" },
-        body: JSON.stringify({ contractId: contract.id }),
+        body: JSON.stringify({ contractId: contract.id, contract }),
       });
       let data;
       try {

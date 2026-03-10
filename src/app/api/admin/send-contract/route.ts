@@ -12,14 +12,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { contractId } = await request.json();
+    const { contractId, contract: clientContract } = await request.json();
     if (!contractId) {
       return NextResponse.json({ error: "contractId required" }, { status: 400 });
     }
 
-    // Load contract and settings
+    // Load contract from blob, fall back to client-provided data (Vercel Blob eventual consistency)
     const contracts = await readJSON<Contract[]>("contracts.json", []);
-    const contract = contracts.find((c) => c.id === contractId);
+    const contract = contracts.find((c) => c.id === contractId) || (clientContract as Contract | undefined);
     if (!contract) {
       return NextResponse.json({ error: "Contract not found" }, { status: 404 });
     }
