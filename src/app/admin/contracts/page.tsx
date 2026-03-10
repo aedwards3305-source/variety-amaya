@@ -79,7 +79,7 @@ export default function ContractsDashboard() {
     )
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
-  const totalValue = contracts.reduce((sum, c) => sum + c.totalPrice, 0);
+  const totalValue = contracts.reduce((sum, c) => sum + Number(c.totalPrice), 0);
   const draftCount = contracts.filter((c) => c.status === "draft").length;
   const sentCount = contracts.filter((c) => c.status === "sent").length;
   const signedCount = contracts.filter((c) => c.status === "signed").length;
