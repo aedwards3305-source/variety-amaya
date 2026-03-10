@@ -5,11 +5,24 @@ function validatePassword(request: Request): boolean {
   return request.headers.get("x-admin-password") === process.env.ADMIN_PASSWORD;
 }
 
+const VALID_STATUSES = new Set(["draft", "sent", "signed", "completed", "cancelled"]);
+
 export async function GET(request: Request) {
   if (!validatePassword(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const contracts = await readJSON("contracts.json", []);
+  const contracts = await readJSON<Record<string, unknown>[]>("contracts.json", []);
+  // Fix any contracts with invalid status values
+  let needsFix = false;
+  for (const c of contracts) {
+    if (!VALID_STATUSES.has(c.status as string)) {
+      c.status = "draft";
+      needsFix = true;
+    }
+  }
+  if (needsFix) {
+    await writeJSON("contracts.json", contracts);
+  }
   return NextResponse.json(contracts);
 }
 

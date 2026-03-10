@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import type { Contract, CompanySettings } from "@/lib/contract-types";
-import { STATUS_CONFIG } from "@/lib/contract-types";
+import { STATUS_CONFIG, FALLBACK_STATUS } from "@/lib/contract-types";
 
 export default function ContractViewPage() {
   const params = useParams();
@@ -138,7 +138,7 @@ export default function ContractViewPage() {
     );
   }
 
-  const statusCfg = STATUS_CONFIG[contract.status];
+  const statusCfg = STATUS_CONFIG[contract.status] || FALLBACK_STATUS;
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">

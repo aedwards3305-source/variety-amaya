@@ -145,7 +145,7 @@ export default function EditContractPage() {
     try {
       const body = asDraft
         ? { ...form, isDraft: true, status: "draft" }
-        : { ...form, status: "active" };
+        : { ...form, status: "sent" };
 
       const res = await fetch(`/api/admin/contracts/${id}`, {
         method: "PUT",

@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import type { Contract, ContractStatus, CompanySettings } from "@/lib/contract-types";
-import { STATUS_CONFIG } from "@/lib/contract-types";
+import { STATUS_CONFIG, FALLBACK_STATUS } from "@/lib/contract-types";
 
 export default function ContractsDashboard() {
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -219,7 +219,7 @@ export default function ContractsDashboard() {
           {/* Mobile card layout */}
           <div className="space-y-3 md:hidden">
             {filtered.map((c) => {
-              const statusCfg = STATUS_CONFIG[c.status];
+              const statusCfg = STATUS_CONFIG[c.status] || FALLBACK_STATUS;
               return (
                 <Link key={c.id} href={`/admin/contracts/${c.id}`} className="block bg-gray-900 rounded-xl border border-gray-800 p-4 active:bg-gray-800 transition-colors">
                   <div className="flex items-center justify-between mb-2">
@@ -258,7 +258,7 @@ export default function ContractsDashboard() {
                 </thead>
                 <tbody>
                   {filtered.map((c) => {
-                    const statusCfg = STATUS_CONFIG[c.status];
+                    const statusCfg = STATUS_CONFIG[c.status] || FALLBACK_STATUS;
                     return (
                       <tr key={c.id} className="border-b border-gray-800/50 hover:bg-gray-800/30 transition-colors">
                         <td className="px-4 py-3">
