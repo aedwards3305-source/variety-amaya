@@ -92,13 +92,13 @@ export default function ContractViewPage() {
       `Service Agreement ${contract.contractNumber} - ${settings.companyName}`
     );
     const body = encodeURIComponent(
-      `Dear ${contract.customerName},\n\nPlease find attached the Service Agreement (${contract.contractNumber}) for your project at ${contract.projectAddress}.\n\nContract Amount: $${contract.totalPrice.toFixed(2)}\nDeposit Required: $${contract.depositAmount.toFixed(2)}\n\nPlease review the agreement and let us know if you have any questions. You can reach us at ${settings.phone}.\n\nBest regards,\n${settings.companyName}\n${settings.phone}\n${settings.website}`
+      `Dear ${contract.customerName},\n\nPlease find attached the Service Agreement (${contract.contractNumber}) for your project at ${contract.projectAddress}.\n\nContract Amount: $${Number(contract.totalPrice).toFixed(2)}\nDeposit Required: $${Number(contract.depositAmount).toFixed(2)}\n\nPlease review the agreement and let us know if you have any questions. You can reach us at ${settings.phone}.\n\nBest regards,\n${settings.companyName}\n${settings.phone}\n${settings.website}`
     );
     window.open(`mailto:${contract.customerEmail}?subject=${subject}&body=${body}`);
   };
 
-  const fmt = (n: number) =>
-    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(n);
+  const fmt = (n: number | string) =>
+    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(Number(n));
   const fmtDate = (d: string) => {
     if (!d) return "";
     return new Date(d + (d.includes("T") ? "" : "T00:00:00")).toLocaleDateString("en-US", {
@@ -218,7 +218,7 @@ export default function ContractViewPage() {
                 </div>
                 <div className="flex justify-between pt-2 border-t border-gray-800">
                   <span className="font-medium">Balance</span>
-                  <span className="text-[#D4AF37] font-bold">{fmt(contract.totalPrice - contract.depositAmount)}</span>
+                  <span className="text-[#D4AF37] font-bold">{fmt(Number(contract.totalPrice) - Number(contract.depositAmount))}</span>
                 </div>
               </div>
             </div>
