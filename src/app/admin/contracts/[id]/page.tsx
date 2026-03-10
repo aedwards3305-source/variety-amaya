@@ -16,6 +16,8 @@ export default function ContractViewPage() {
   const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
   const [generatingPdf, setGeneratingPdf] = useState(false);
+  const [sendingEmail, setSendingEmail] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
   const [error, setError] = useState("");
 
   const pwd = typeof window !== "undefined" ? sessionStorage.getItem("adminPwd") : null;
@@ -86,15 +88,29 @@ export default function ContractViewPage() {
     link.click();
   };
 
-  const emailContract = () => {
-    if (!contract || !settings) return;
-    const subject = encodeURIComponent(
-      `Service Agreement ${contract.contractNumber} - ${settings.companyName}`
-    );
-    const body = encodeURIComponent(
-      `Dear ${contract.customerName},\n\nPlease find attached the Service Agreement (${contract.contractNumber}) for your project at ${contract.projectAddress}.\n\nContract Amount: $${Number(contract.totalPrice).toFixed(2)}\nDeposit Required: $${Number(contract.depositAmount).toFixed(2)}\n\nPlease review the agreement and let us know if you have any questions. You can reach us at ${settings.phone}.\n\nBest regards,\n${settings.companyName}\n${settings.phone}\n${settings.website}`
-    );
-    window.open(`mailto:${contract.customerEmail}?subject=${subject}&body=${body}`);
+  const emailContract = async () => {
+    if (!contract || !pwd || sendingEmail) return;
+    if (!confirm(`Send contract ${contract.contractNumber} to ${contract.customerEmail}?`)) return;
+    setSendingEmail(true);
+    setEmailSent(false);
+    try {
+      const res = await fetch("/api/admin/send-contract", {
+        method: "POST",
+        headers: { "x-admin-password": pwd, "Content-Type": "application/json" },
+        body: JSON.stringify({ contractId: contract.id }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send");
+      setEmailSent(true);
+      // Update local contract status if it was draft
+      if (contract.status === "draft") {
+        setContract({ ...contract, status: "sent" as Contract["status"], sentAt: new Date().toISOString() });
+      }
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Failed to send email");
+    } finally {
+      setSendingEmail(false);
+    }
   };
 
   const fmt = (n: number | string) =>
@@ -273,12 +289,36 @@ export default function ContractViewPage() {
               {contract.customerEmail && (
                 <button
                   onClick={emailContract}
-                  className="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg text-sm transition-colors border border-gray-700"
+                  disabled={sendingEmail}
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm transition-colors border ${
+                    emailSent
+                      ? "bg-green-900/50 border-green-700 text-green-300"
+                      : "bg-gray-800 hover:bg-gray-700 text-white border-gray-700"
+                  } disabled:opacity-50`}
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  Email to Customer
+                  {sendingEmail ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Sending...
+                    </>
+                  ) : emailSent ? (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Sent to {contract.customerEmail}
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      Email to Customer
+                    </>
+                  )}
                 </button>
               )}
               <button
