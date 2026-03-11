@@ -270,17 +270,15 @@ export default function ContractViewPage() {
           <div className="lg:col-span-2">
             {/* Action buttons */}
             <div className="flex flex-wrap gap-3 mb-4">
-              {contract.status === "draft" && (
                 <Link
-                  href={`/admin/contracts/${id}/edit`}
-                  className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#B8960C] text-black font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
-                >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                  Edit Draft
-                </Link>
-              )}
+                href={`/admin/contracts/${id}/edit`}
+                className="inline-flex items-center gap-2 bg-[#D4AF37] hover:bg-[#B8960C] text-black font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                {contract.status === "draft" ? "Edit Draft" : "Edit Contract"}
+              </Link>
               <button
                 onClick={downloadPdf}
                 disabled={!pdfUrl}

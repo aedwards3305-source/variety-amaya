@@ -41,6 +41,7 @@ export default function EditContractPage() {
     projectDuration: "",
     specialNotes: "",
   });
+  const [originalStatus, setOriginalStatus] = useState<string>("draft");
   const [errors, setErrors] = useState<string[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [savingDraft, setSavingDraft] = useState(false);
@@ -55,6 +56,7 @@ export default function EditContractPage() {
       });
       if (!res.ok) throw new Error("Not found");
       const contract = await res.json();
+      setOriginalStatus(contract.status || "draft");
       setForm({
         customerName: contract.customerName || "",
         customerAddress: contract.customerAddress || "",
@@ -143,9 +145,17 @@ export default function EditContractPage() {
     else setSubmitting(true);
 
     try {
+      let status: string;
+      if (asDraft) {
+        status = "draft";
+      } else if (originalStatus === "draft") {
+        status = "sent";
+      } else {
+        status = originalStatus;
+      }
       const body = asDraft
-        ? { ...form, isDraft: true, status: "draft" }
-        : { ...form, status: "sent" };
+        ? { ...form, isDraft: true, status }
+        : { ...form, status };
 
       const res = await fetch(`/api/admin/contracts/${id}`, {
         method: "PUT",
@@ -202,8 +212,14 @@ export default function EditContractPage() {
           Back to Contract
         </Link>
 
-        <h2 className="text-2xl font-bold mb-2">Edit Contract</h2>
-        <p className="text-sm text-gray-500 mb-8">Update the contract details below.</p>
+        <h2 className="text-2xl font-bold mb-2">
+          {originalStatus === "draft" ? "Edit Draft" : "Edit Contract"}
+        </h2>
+        <p className="text-sm text-gray-500 mb-8">
+          {originalStatus === "draft"
+            ? "Update the contract details below."
+            : "Update the contract details. The contract status will be preserved."}
+        </p>
 
         {errors.length > 0 && (
           <div className="bg-red-900/30 border border-red-800 rounded-xl p-4 mb-6">
@@ -377,29 +393,31 @@ export default function EditContractPage() {
               Cancel
             </Link>
             <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => saveContract(true)}
-                disabled={savingDraft || submitting}
-                className="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-700 disabled:text-gray-500 text-white px-6 py-3 rounded-lg text-sm transition-colors border border-gray-700"
-              >
-                {savingDraft ? (
-                  <>
-                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                    </svg>
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                    </svg>
-                    Save Draft
-                  </>
-                )}
-              </button>
+              {originalStatus === "draft" && (
+                <button
+                  type="button"
+                  onClick={() => saveContract(true)}
+                  disabled={savingDraft || submitting}
+                  className="inline-flex items-center gap-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-700 disabled:text-gray-500 text-white px-6 py-3 rounded-lg text-sm transition-colors border border-gray-700"
+                >
+                  {savingDraft ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                      </svg>
+                      Save Draft
+                    </>
+                  )}
+                </button>
+              )}
               <button
                 type="submit"
                 disabled={submitting || savingDraft}
@@ -415,7 +433,7 @@ export default function EditContractPage() {
                   </>
                 ) : (
                   <>
-                    Save &amp; Finalize
+                    {originalStatus === "draft" ? "Save & Finalize" : "Save Changes"}
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
