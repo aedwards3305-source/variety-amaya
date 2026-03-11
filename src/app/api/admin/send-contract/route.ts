@@ -73,6 +73,7 @@ export async function POST(request: Request) {
 
     await sgMail.send({
       to: contract.customerEmail,
+      cc: "rene_amaya81@yahoo.com",
       from: { email: fromEmail, name: settings.companyName },
       subject: `Service Agreement ${contract.contractNumber} - ${settings.companyName}`,
       text: `Dear ${contract.customerName},
