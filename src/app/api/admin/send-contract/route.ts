@@ -120,8 +120,20 @@ ${settings.website}`,
 
     return NextResponse.json({ success: true, sentTo: contract.customerEmail });
   } catch (err) {
-    console.error("Send contract error:", err);
-    const message = err instanceof Error ? err.message : "Failed to send email";
+    // SendGrid wraps its API response in err.response.body.errors — surface that detail
+    // so the client sees the real reason (e.g. "The from address does not match a verified
+    // Sender Identity") instead of a generic "Unauthorized".
+    const sgBody = (err as { response?: { body?: { errors?: { message: string; field?: string | null }[] } } }).response?.body;
+    const sgErrors = sgBody?.errors;
+    const sgStatus = (err as { code?: number }).code;
+    const baseMessage = err instanceof Error ? err.message : "Failed to send email";
+    const detail = sgErrors?.length
+      ? sgErrors.map((e) => e.field ? `${e.field}: ${e.message}` : e.message).join("; ")
+      : null;
+    const message = detail
+      ? `SendGrid${sgStatus ? ` ${sgStatus}` : ""}: ${detail}`
+      : baseMessage;
+    console.error("Send contract error:", { message, sgStatus, sgErrors, raw: err });
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
