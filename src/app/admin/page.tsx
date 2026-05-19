@@ -588,13 +588,23 @@ export default function AdminPage() {
               </div>
               <div>
                 <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Confirm Password</label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:ring-1 focus:ring-[#D4AF37] focus:border-transparent outline-none"
-                  placeholder="Re-enter password"
-                />
+                <div className="relative">
+                  <input
+                    type={showConfirmPwd ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="w-full px-3 py-2 pr-10 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:ring-1 focus:ring-[#D4AF37] focus:border-transparent outline-none"
+                    placeholder="Re-enter password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPwd((v) => !v)}
+                    aria-label={showConfirmPwd ? "Hide password" : "Show password"}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#D4AF37] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:rounded"
+                  >
+                    {showConfirmPwd ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                </div>
               </div>
               {passwordError && <p className="text-red-400 text-sm">{passwordError}</p>}
             </div>
