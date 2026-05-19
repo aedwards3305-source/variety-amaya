@@ -456,15 +456,25 @@ export default function AdminPage() {
             <label htmlFor="password" className="block text-sm font-medium text-gray-400 mb-2">
               Password
             </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none"
-              placeholder="Enter admin password"
-              autoFocus
-            />
+            <div className="relative">
+              <input
+                id="password"
+                type={showLoginPwd ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 pr-12 bg-gray-800 border border-gray-700 rounded-lg text-white focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent outline-none"
+                placeholder="Enter admin password"
+                autoFocus
+              />
+              <button
+                type="button"
+                onClick={() => setShowLoginPwd((v) => !v)}
+                aria-label={showLoginPwd ? "Hide password" : "Show password"}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#D4AF37] transition-colors"
+              >
+                {showLoginPwd ? <EyeOffIcon /> : <EyeIcon />}
+              </button>
+            </div>
             {loginError && (
               <p className="text-red-400 text-sm mt-2">{loginError}</p>
             )}
