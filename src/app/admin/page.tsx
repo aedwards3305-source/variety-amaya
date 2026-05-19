@@ -470,7 +470,7 @@ export default function AdminPage() {
                 type="button"
                 onClick={() => setShowLoginPwd((v) => !v)}
                 aria-label={showLoginPwd ? "Hide password" : "Show password"}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#D4AF37] transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#D4AF37] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:rounded"
               >
                 {showLoginPwd ? <EyeOffIcon /> : <EyeIcon />}
               </button>
