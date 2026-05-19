@@ -567,14 +567,24 @@ export default function AdminPage() {
             <div className="space-y-3">
               <div>
                 <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1">New Password</label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:ring-1 focus:ring-[#D4AF37] focus:border-transparent outline-none"
-                  placeholder="Min 6 characters"
-                  autoFocus
-                />
+                <div className="relative">
+                  <input
+                    type={showNewPwd ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    className="w-full px-3 py-2 pr-10 bg-gray-800 border border-gray-700 rounded-lg text-sm text-white focus:ring-1 focus:ring-[#D4AF37] focus:border-transparent outline-none"
+                    placeholder="Min 6 characters"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPwd((v) => !v)}
+                    aria-label={showNewPwd ? "Hide password" : "Show password"}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-[#D4AF37] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] focus-visible:rounded"
+                  >
+                    {showNewPwd ? <EyeOffIcon /> : <EyeIcon />}
+                  </button>
+                </div>
               </div>
               <div>
                 <label className="block text-xs text-gray-500 uppercase tracking-wider mb-1">Confirm Password</label>
