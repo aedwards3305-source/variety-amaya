@@ -39,12 +39,11 @@ export async function POST(request: Request) {
       logoPath: "/va-logo.png",
     });
 
-    // Check SendGrid config
-    const apiKey = process.env.SENDGRID_API_KEY;
-    const fromEmail = process.env.SENDGRID_FROM_EMAIL;
+    const apiKey = process.env.RESEND_API_KEY;
+    const fromEmail = process.env.RESEND_FROM_EMAIL;
     if (!apiKey || !fromEmail) {
       return NextResponse.json(
-        { error: "Email service not configured. Set SENDGRID_API_KEY and SENDGRID_FROM_EMAIL in Vercel." },
+        { error: "Email service not configured. Set RESEND_API_KEY and RESEND_FROM_EMAIL in Vercel." },
         { status: 500 }
       );
     }
@@ -67,16 +66,10 @@ export async function POST(request: Request) {
     const depositAmount = Number(contract.depositAmount).toFixed(2);
     const filename = `${contract.contractNumber}-${contract.customerName.replace(/\s+/g, "-")}.pdf`;
 
-    // Send via SendGrid
-    const sgMail = (await import("@sendgrid/mail")).default;
-    sgMail.setApiKey(apiKey);
+    const { Resend } = await import("resend");
+    const resend = new Resend(apiKey);
 
-    await sgMail.send({
-      to: contract.customerEmail,
-      cc: "rene_amaya81@yahoo.com",
-      from: { email: fromEmail, name: settings.companyName },
-      subject: `Service Agreement ${contract.contractNumber} - ${settings.companyName}`,
-      text: `Dear ${contract.customerName},
+    const text = `Dear ${contract.customerName},
 
 Please find attached the Service Agreement (${contract.contractNumber}) for your project at ${contract.projectAddress}.
 
@@ -88,24 +81,42 @@ Please review the agreement and let us know if you have any questions. You can r
 Best regards,
 ${settings.companyName}
 ${settings.phone}
-${settings.website}`,
-      html: `<p>Dear ${contract.customerName},</p>
+${settings.website}`;
+
+    const html = `<p>Dear ${contract.customerName},</p>
 <p>Please find attached the Service Agreement (<strong>${contract.contractNumber}</strong>) for your project at ${contract.projectAddress}.</p>
 <table style="border-collapse:collapse;margin:16px 0;">
   <tr><td style="padding:4px 16px 4px 0;color:#666;">Contract Amount:</td><td style="font-weight:bold;">$${totalPrice}</td></tr>
   <tr><td style="padding:4px 16px 4px 0;color:#666;">Deposit Required:</td><td style="font-weight:bold;">$${depositAmount}</td></tr>
 </table>
 <p>Please review the agreement and let us know if you have any questions. You can reach us at <strong>${settings.phone}</strong>.</p>
-<p>Best regards,<br/><strong>${settings.companyName}</strong><br/>${settings.phone}<br/>${settings.website}</p>`,
+<p>Best regards,<br/><strong>${settings.companyName}</strong><br/>${settings.phone}<br/>${settings.website}</p>`;
+
+    const { data, error } = await resend.emails.send({
+      from: `${settings.companyName} <${fromEmail}>`,
+      to: contract.customerEmail,
+      cc: "rene_amaya81@yahoo.com",
+      replyTo: process.env.RESEND_REPLY_TO || "varietyamayallcc@gmail.com",
+      subject: `Service Agreement ${contract.contractNumber} - ${settings.companyName}`,
+      text,
+      html,
       attachments: [
         {
-          content: Buffer.from(pdfBuffer).toString("base64"),
           filename,
-          type: "application/pdf",
-          disposition: "attachment",
+          content: Buffer.from(pdfBuffer),
         },
       ],
     });
+
+    if (error) {
+      console.error("Resend error:", error);
+      return NextResponse.json(
+        { error: `Resend: ${error.message || error.name || "send failed"}` },
+        { status: 500 }
+      );
+    }
+
+    console.log("Resend send ok:", data?.id);
 
     // Update contract status to "sent" if it's still a draft
     const idx = contracts.findIndex((c) => c.id === contractId);
@@ -120,20 +131,8 @@ ${settings.website}`,
 
     return NextResponse.json({ success: true, sentTo: contract.customerEmail });
   } catch (err) {
-    // SendGrid wraps its API response in err.response.body.errors — surface that detail
-    // so the client sees the real reason (e.g. "The from address does not match a verified
-    // Sender Identity") instead of a generic "Unauthorized".
-    const sgBody = (err as { response?: { body?: { errors?: { message: string; field?: string | null }[] } } }).response?.body;
-    const sgErrors = sgBody?.errors;
-    const sgStatus = (err as { code?: number }).code;
-    const baseMessage = err instanceof Error ? err.message : "Failed to send email";
-    const detail = sgErrors?.length
-      ? sgErrors.map((e) => e.field ? `${e.field}: ${e.message}` : e.message).join("; ")
-      : null;
-    const message = detail
-      ? `SendGrid${sgStatus ? ` ${sgStatus}` : ""}: ${detail}`
-      : baseMessage;
-    console.error("Send contract error:", { message, sgStatus, sgErrors, raw: err });
+    const message = err instanceof Error ? err.message : "Failed to send email";
+    console.error("Send contract error:", err);
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
