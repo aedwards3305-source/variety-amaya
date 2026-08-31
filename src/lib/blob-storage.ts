@@ -67,11 +67,12 @@ export async function writeJSON(filename: string, data: unknown): Promise<void> 
     return;
   }
 
-  // `put` overwrites the existing blob because addRandomSuffix is off. Deleting
-  // first would destroy the saved data whenever the write that follows fails.
+  // allowOverwrite replaces the blob in a single call. Deleting first would
+  // destroy the saved data whenever the write that follows fails.
   await put(filename, JSON.stringify(data, null, 2), {
     access: "public",
     addRandomSuffix: false,
+    allowOverwrite: true,
     cacheControlMaxAge: 0,
   });
 }
