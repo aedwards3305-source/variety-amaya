@@ -21,15 +21,30 @@ export async function GET(request: Request) {
   if (!validatePassword(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const data = await readJSON("company-settings.json", DEFAULT_SETTINGS);
-  return NextResponse.json(data);
+  try {
+    const data = await readJSON("company-settings.json", DEFAULT_SETTINGS);
+    return NextResponse.json(data);
+  } catch (err) {
+    // Settings are presentation-only and have sane defaults, so a storage
+    // outage should not take the admin down with it.
+    console.error("Read company settings failed, using defaults:", err);
+    return NextResponse.json(DEFAULT_SETTINGS);
+  }
 }
 
 export async function PUT(request: Request) {
   if (!validatePassword(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
-  const body = await request.json();
-  await writeJSON("company-settings.json", body);
-  return NextResponse.json({ success: true });
+  try {
+    const body = await request.json();
+    await writeJSON("company-settings.json", body);
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error("Save company settings failed:", err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Could not save settings" },
+      { status: 500 }
+    );
+  }
 }

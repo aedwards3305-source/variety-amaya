@@ -40,8 +40,13 @@ export default function ContractsDashboard() {
         if (!cRes.ok) throw new Error(await apiErrorMessage(cRes, "Could not load contracts"));
         const c = await cRes.json();
         setContracts(Array.isArray(c) ? c : []);
-        setSettings(await sRes.json());
         setLoadError("");
+        // Settings only affect presentation, so never let them block the list.
+        try {
+          setSettings(await sRes.json());
+        } catch {
+          // Keep the previous settings and carry on.
+        }
       } catch (err) {
         setLoadError(err instanceof Error ? err.message : "Could not load contracts");
       } finally {
