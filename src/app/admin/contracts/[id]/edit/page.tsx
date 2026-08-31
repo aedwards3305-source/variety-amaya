@@ -242,7 +242,7 @@ export default function EditContractPage() {
                 <input type="text" value={form.customerName} onChange={(e) => set("customerName", e.target.value)} className={inputClass} placeholder="John Doe" />
               </div>
               <div>
-                <label className={labelClass}>Customer Email</label>
+                <label className={labelClass}>Customer Email <span className="normal-case tracking-normal text-gray-500">(needed to email the contract)</span></label>
                 <input type="email" value={form.customerEmail} onChange={(e) => set("customerEmail", e.target.value)} className={inputClass} placeholder="john@example.com" />
               </div>
               <div>

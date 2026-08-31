@@ -289,7 +289,7 @@ export default function ContractViewPage() {
                 </svg>
                 Download PDF
               </button>
-              {contract.customerEmail && (
+              {contract.customerEmail ? (
                 <button
                   onClick={emailContract}
                   disabled={sendingEmail}
@@ -323,6 +323,16 @@ export default function ContractViewPage() {
                     </>
                   )}
                 </button>
+              ) : (
+                <Link
+                  href={`/admin/contracts/${id}/edit`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm transition-colors border bg-gray-800 hover:bg-gray-700 text-white border-gray-700"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  Add Email to Send
+                </Link>
               )}
               <button
                 onClick={generatePdf}
@@ -335,6 +345,14 @@ export default function ContractViewPage() {
                 {generatingPdf ? "Regenerating..." : "Regenerate PDF"}
               </button>
             </div>
+
+            {!contract.customerEmail && (
+              <p className="text-sm text-amber-400/90 bg-amber-500/10 border border-amber-500/30 rounded-lg px-4 py-3 mb-4">
+                This contract has no customer email, so it can&apos;t be emailed yet. Tap{" "}
+                <span className="font-semibold">Add Email to Send</span> to add the customer&apos;s email address, save,
+                and the <span className="font-semibold">Email to Customer</span> button will appear here.
+              </p>
+            )}
 
             {/* PDF Preview - Desktop */}
             <div className="hidden lg:block bg-gray-900 rounded-xl border border-gray-800 overflow-hidden" style={{ height: "calc(100vh - 220px)", minHeight: "600px" }}>
