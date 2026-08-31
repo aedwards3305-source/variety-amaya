@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { apiErrorMessage } from "@/lib/api-error";
 
 interface FormData {
   customerName: string;
@@ -96,12 +97,12 @@ export default function NewContractPage() {
         headers: { "x-admin-password": pwd, "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error("Failed to create contract");
+      if (!res.ok) throw new Error(await apiErrorMessage(res, "Failed to save contract. Please try again."));
       const contract = await res.json();
       sessionStorage.setItem(`contract-cache-${contract.id}`, JSON.stringify(contract));
       router.push(`/admin/contracts/${contract.id}`);
-    } catch {
-      setErrors(["Failed to save contract. Please try again."]);
+    } catch (err) {
+      setErrors([err instanceof Error ? err.message : "Failed to save contract. Please try again."]);
       setSubmitting(false);
     }
   };
@@ -121,12 +122,12 @@ export default function NewContractPage() {
         headers: { "x-admin-password": pwd!, "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, isDraft: true }),
       });
-      if (!res.ok) throw new Error("Failed to save draft");
+      if (!res.ok) throw new Error(await apiErrorMessage(res, "Failed to save draft. Please try again."));
       const contract = await res.json();
       sessionStorage.setItem(`contract-cache-${contract.id}`, JSON.stringify(contract));
       router.push(`/admin/contracts/${contract.id}`);
-    } catch {
-      setErrors(["Failed to save draft. Please try again."]);
+    } catch (err) {
+      setErrors([err instanceof Error ? err.message : "Failed to save draft. Please try again."]);
       setSavingDraft(false);
     }
   };

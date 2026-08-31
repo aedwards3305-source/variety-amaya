@@ -2,6 +2,17 @@ import { put, list } from "@vercel/blob";
 
 const IS_VERCEL = !!process.env.BLOB_READ_WRITE_TOKEN;
 
+// On Vercel the filesystem is read-only, so the local fallback below cannot work
+// there. Without a Blob token every write would fail with an opaque EROFS error.
+function assertStorageConfigured(): void {
+  if (!IS_VERCEL && process.env.VERCEL) {
+    throw new Error(
+      "Blob storage is not configured: BLOB_READ_WRITE_TOKEN is missing. " +
+        "Connect a Blob store to this project in Vercel and redeploy."
+    );
+  }
+}
+
 // Fallback to filesystem for local development
 async function localRead(filename: string): Promise<string | null> {
   const fs = await import("fs");
@@ -19,6 +30,7 @@ async function localWrite(filename: string, data: string): Promise<void> {
 }
 
 export async function readJSON<T>(filename: string, fallback: T): Promise<T> {
+  assertStorageConfigured();
   if (!IS_VERCEL) {
     const content = await localRead(filename);
     return content ? JSON.parse(content) : fallback;
@@ -39,24 +51,24 @@ export async function readJSON<T>(filename: string, fallback: T): Promise<T> {
     const response = await fetch(blobs[0].url, { cache: "no-store" });
     const text = await response.text();
     return JSON.parse(text);
-  } catch {
-    return fallback;
+  } catch (err) {
+    // Returning the fallback here would hand callers an empty list, and a
+    // caller that then writes would erase every existing record.
+    throw new Error(
+      `Could not read ${filename} from Blob storage: ${err instanceof Error ? err.message : String(err)}`
+    );
   }
 }
 
 export async function writeJSON(filename: string, data: unknown): Promise<void> {
+  assertStorageConfigured();
   if (!IS_VERCEL) {
     await localWrite(filename, JSON.stringify(data, null, 2));
     return;
   }
 
-  // Delete existing blob(s) with this name first
-  const { blobs } = await list({ prefix: filename });
-  if (blobs.length > 0) {
-    const { del } = await import("@vercel/blob");
-    await del(blobs.map((b) => b.url));
-  }
-
+  // `put` overwrites the existing blob because addRandomSuffix is off. Deleting
+  // first would destroy the saved data whenever the write that follows fails.
   await put(filename, JSON.stringify(data, null, 2), {
     access: "public",
     addRandomSuffix: false,

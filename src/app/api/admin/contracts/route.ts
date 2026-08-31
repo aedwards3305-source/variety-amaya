@@ -8,53 +8,69 @@ function validatePassword(request: Request): boolean {
 const VALID_STATUSES = new Set(["draft", "sent", "signed", "completed", "cancelled"]);
 
 export async function GET(request: Request) {
-  if (!validatePassword(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-  const contracts = await readJSON<Record<string, unknown>[]>("contracts.json", []);
-  // Fix any contracts with invalid status values
-  let needsFix = false;
-  for (const c of contracts) {
-    if (!VALID_STATUSES.has(c.status as string)) {
-      c.status = "draft";
-      needsFix = true;
+  try {
+    if (!validatePassword(request)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
+    const contracts = await readJSON<Record<string, unknown>[]>("contracts.json", []);
+    // Fix any contracts with invalid status values
+    let needsFix = false;
+    for (const c of contracts) {
+      if (!VALID_STATUSES.has(c.status as string)) {
+        c.status = "draft";
+        needsFix = true;
+      }
+    }
+    if (needsFix) {
+      await writeJSON("contracts.json", contracts);
+    }
+    return NextResponse.json(contracts);
+  } catch (err) {
+    console.error("List contracts failed:", err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Could not load contracts" },
+      { status: 500 }
+    );
   }
-  if (needsFix) {
-    await writeJSON("contracts.json", contracts);
-  }
-  return NextResponse.json(contracts);
 }
 
 export async function POST(request: Request) {
-  if (!validatePassword(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    if (!validatePassword(request)) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const body = await request.json();
+    const contracts = await readJSON<Record<string, unknown>[]>("contracts.json", []);
+
+    const year = new Date().getFullYear();
+    const thisYearContracts = contracts.filter(
+      (c) => (c.contractNumber as string)?.startsWith(`VA-${year}-`)
+    );
+    const nextNum = thisYearContracts.length + 1;
+    const contractNumber = `VA-${year}-${String(nextNum).padStart(3, "0")}`;
+
+    const now = new Date().toISOString();
+    const contract = {
+      id: `contract-${Date.now()}`,
+      contractNumber,
+      status: "draft",
+      createdAt: now,
+      updatedAt: now,
+      ...body,
+      totalPrice: parseFloat(body.totalPrice) || 0,
+      depositAmount: parseFloat(body.depositAmount) || 0,
+    };
+
+    contracts.push(contract);
+    await writeJSON("contracts.json", contracts);
+
+    return NextResponse.json(contract, { status: 201 });
+  } catch (err) {
+    console.error("Create contract failed:", err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Could not save the contract" },
+      { status: 500 }
+    );
   }
-
-  const body = await request.json();
-  const contracts = await readJSON<Record<string, unknown>[]>("contracts.json", []);
-
-  const year = new Date().getFullYear();
-  const thisYearContracts = contracts.filter(
-    (c) => (c.contractNumber as string)?.startsWith(`VA-${year}-`)
-  );
-  const nextNum = thisYearContracts.length + 1;
-  const contractNumber = `VA-${year}-${String(nextNum).padStart(3, "0")}`;
-
-  const now = new Date().toISOString();
-  const contract = {
-    id: `contract-${Date.now()}`,
-    contractNumber,
-    status: "draft",
-    createdAt: now,
-    updatedAt: now,
-    ...body,
-    totalPrice: parseFloat(body.totalPrice) || 0,
-    depositAmount: parseFloat(body.depositAmount) || 0,
-  };
-
-  contracts.push(contract);
-  await writeJSON("contracts.json", contracts);
-
-  return NextResponse.json(contract, { status: 201 });
 }

@@ -29,21 +29,29 @@ export async function PUT(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { id } = await params;
-  const body = await request.json();
-  const contracts = await readJSON<Record<string, unknown>[]>("contracts.json", []);
-  const index = contracts.findIndex((c) => c.id === id);
-  if (index === -1) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  try {
+    const body = await request.json();
+    const contracts = await readJSON<Record<string, unknown>[]>("contracts.json", []);
+    const index = contracts.findIndex((c) => c.id === id);
+    if (index === -1) {
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    }
+
+    contracts[index] = {
+      ...contracts[index],
+      ...body,
+      updatedAt: new Date().toISOString(),
+    };
+    await writeJSON("contracts.json", contracts);
+
+    return NextResponse.json(contracts[index]);
+  } catch (err) {
+    console.error("Update contract failed:", err);
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Could not save the contract" },
+      { status: 500 }
+    );
   }
-
-  contracts[index] = {
-    ...contracts[index],
-    ...body,
-    updatedAt: new Date().toISOString(),
-  };
-  await writeJSON("contracts.json", contracts);
-
-  return NextResponse.json(contracts[index]);
 }
 
 export async function DELETE(

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
+import { apiErrorMessage } from "@/lib/api-error";
 
 interface FormData {
   customerName: string;
@@ -162,12 +163,12 @@ export default function EditContractPage() {
         headers: { "x-admin-password": pwd!, "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
-      if (!res.ok) throw new Error("Failed to save");
+      if (!res.ok) throw new Error(await apiErrorMessage(res, "Failed to save contract. Please try again."));
       const updated = await res.json();
       sessionStorage.setItem(`contract-cache-${id}`, JSON.stringify(updated));
       router.push(`/admin/contracts/${id}`);
-    } catch {
-      setErrors(["Failed to save contract. Please try again."]);
+    } catch (err) {
+      setErrors([err instanceof Error ? err.message : "Failed to save contract. Please try again."]);
       setSavingDraft(false);
       setSubmitting(false);
     }
