@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Contract, ContractStatus, CompanySettings } from "@/lib/contract-types";
 import { STATUS_CONFIG, FALLBACK_STATUS } from "@/lib/contract-types";
+import { apiErrorMessage } from "@/lib/api-error";
 
 export default function ContractsDashboard() {
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -13,6 +14,7 @@ export default function ContractsDashboard() {
   const [authed, setAuthed] = useState(false);
   const [filter, setFilter] = useState<ContractStatus | "all">("all");
   const [search, setSearch] = useState("");
+  const [loadError, setLoadError] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [editSettings, setEditSettings] = useState<CompanySettings | null>(null);
   const [savingSettings, setSavingSettings] = useState(false);
@@ -27,15 +29,25 @@ export default function ContractsDashboard() {
   useEffect(() => {
     if (!pwd) return;
     setAuthed(true);
-    Promise.all([
-      fetch("/api/admin/contracts", { headers: { "x-admin-password": pwd } }).then((r) => r.json()),
-      fetch("/api/admin/company-settings", { headers: { "x-admin-password": pwd } }).then((r) => r.json()),
-    ])
-      .then(([c, s]) => {
+    (async () => {
+      try {
+        const [cRes, sRes] = await Promise.all([
+          fetch("/api/admin/contracts", { headers: { "x-admin-password": pwd } }),
+          fetch("/api/admin/company-settings", { headers: { "x-admin-password": pwd } }),
+        ]);
+        // Without this an API failure renders as "No contracts yet", which looks
+        // identical to an account that genuinely has none.
+        if (!cRes.ok) throw new Error(await apiErrorMessage(cRes, "Could not load contracts"));
+        const c = await cRes.json();
         setContracts(Array.isArray(c) ? c : []);
-        setSettings(s);
-      })
-      .finally(() => setLoading(false));
+        setSettings(await sRes.json());
+        setLoadError("");
+      } catch (err) {
+        setLoadError(err instanceof Error ? err.message : "Could not load contracts");
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, [pwd]);
 
   const deleteContract = async (id: string) => {
@@ -196,6 +208,12 @@ export default function ContractsDashboard() {
             className="flex-1 px-3 py-2 bg-gray-900 border border-gray-800 rounded-lg text-sm text-white placeholder-gray-500 focus:ring-1 focus:ring-[#D4AF37] focus:border-transparent outline-none"
           />
         </div>
+
+        {loadError && (
+          <div className="mb-6 bg-red-950/50 border border-red-900 rounded-lg px-4 py-3">
+            <p className="text-sm text-red-300">{loadError}</p>
+          </div>
+        )}
 
         {/* Table */}
         {loading ? (
